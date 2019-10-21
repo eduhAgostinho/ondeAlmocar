@@ -14,7 +14,7 @@ export async function criarCodigo(tamanho: number) {
 
 export async function novaVotacao(grupo: Grupo) {
     const ids: string[] = [];
-    grupo.restaurantesEscolhidos.map( r => { ids.push(r.restaurante._id) } );
+    grupo.restaurantesEscolhidos.map( r => { ids.push(r._id) } );
     const restaurantes = await buscarRestaurantes(ids);
     const restaurantesParaVotacao: RestauranteVotacao[] = [];
     restaurantes.map( r => {

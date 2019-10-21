@@ -6,7 +6,7 @@ export interface Restaurante {
 export interface RestauranteVotacao {
     restaurante: RestauranteBusca
     curtidas: number,
-    data: Date,
+    data: Date
 }
 
 export interface RestauranteBusca extends Restaurante{
