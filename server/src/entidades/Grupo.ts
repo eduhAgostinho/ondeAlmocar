@@ -3,7 +3,7 @@ import { RestauranteVotacao, Restaurante, RestauranteBusca } from "./Restaurante
 
 export interface Grupo {
     nome: string,
-    integrantes: Usuario[],
+    usuario: Usuario[],
     codigo: string,
     restaurantesEscolhidos: RestauranteBusca[],
     votacao: RestauranteVotacao[]

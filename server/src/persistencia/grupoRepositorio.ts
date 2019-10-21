@@ -3,6 +3,7 @@ import { GrupoModel } from "./grupoModel";
 import { criarCodigo, novaVotacao } from "../negocio/negocio";
 import { RestauranteVotacao, Restaurante, RestauranteBusca } from "../entidades/Restaurante";
 import { UsuarioModel } from "./usuarioModel";
+import { RestauranteModel } from "./restauranteModel";
 
 export async function grupoNovo(grupo: Grupo) {
     grupo.codigo = await criarCodigo(7);
@@ -10,7 +11,7 @@ export async function grupoNovo(grupo: Grupo) {
 }
 
 export async function buscarGrupoID(grupoID: string ) {
-    return GrupoModel.findById(grupoID).populate('integrantes', UsuarioModel).exec();
+    return GrupoModel.findById(grupoID).populate('usuario').populate('restaurante').exec();
 }
 
 export async function novaVotacaoGrupo(grupoID: string) {

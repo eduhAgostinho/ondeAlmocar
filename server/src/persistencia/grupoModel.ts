@@ -3,9 +3,9 @@ import { Grupo } from "../entidades/Grupo";
 
 const GrupoSchema = new Schema({
     nome: { type: String, required: true },
-    integrantes: [{ type: SchemaTypes.ObjectId, ref: 'usuario' }],
+    usuario: [{ type: SchemaTypes.ObjectId, ref: 'usuario' }],
     codigo: { type: String, required: true },
-    restaurantesEscolhidos: [{ type: SchemaTypes.ObjectId, ref: 'restaurante' }],
+    restaurantesEscolhidos: [{ type: SchemaTypes.ObjectId, ref: 'restaurantesEscolhidos' }],
     votacao: [{ 
         restaurante: { type: SchemaTypes.ObjectId, ref: 'restaurante' },
         curtidas : { types: Number, default: 0 },

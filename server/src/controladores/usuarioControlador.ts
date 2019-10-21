@@ -33,7 +33,7 @@ export async function atualizaUsuario(req: Request, res: Response, next: NextFun
         if ( result ) {
             res.send('Atualizado com sucesso').end();
         } else {
-            res.status(400).send('Usuário não encontrado').end();
+            res.status(400).send('Requisição inválida');
         }
 
     } catch (err) {
