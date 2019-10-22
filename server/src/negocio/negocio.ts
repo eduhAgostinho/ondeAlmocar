@@ -36,7 +36,3 @@ export async function novaVotacao(grupo: Grupo) {
     });
     return restaurantesParaVotacao;
 }
-
-export async function verificaRestaurantesDaSemana() {
-
-}

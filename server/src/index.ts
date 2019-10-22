@@ -1,6 +1,6 @@
 import app from './app';
 import {connect} from 'mongoose';
-import { buscarGrupoID } from './persistencia/grupoRepositorio';
+import { GrupoModel } from './persistencia/grupoModel';
 
 (async () => {
      try {
