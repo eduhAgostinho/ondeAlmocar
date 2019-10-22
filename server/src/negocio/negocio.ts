@@ -14,7 +14,17 @@ export async function criarCodigo(tamanho: number) {
 
 export async function novaVotacao(grupo: Grupo) {
     const ids: string[] = [];
-    grupo.restaurantesEscolhidos.map( r => { ids.push(r._id) } );
+    const dataHoje = new Date();
+    let contador = 0;
+    grupo.restaurantesEscolhidos.map( r => {
+        if (!(r.data.getFullYear() === dataHoje.getFullYear() && r.data.getMonth() === dataHoje.getMonth() &&
+            r.data.getDate() >= dataHoje.getDate() - dataHoje.getDay())) {
+            grupo.restaurantesEscolhidos.splice(contador, 1);
+        } 
+        contador++;
+    });
+
+    grupo.restaurantesEscolhidos.map( r => { ids.push(r.restaurante._id) } );
     const restaurantes = await buscarRestaurantes(ids);
     const restaurantesParaVotacao: RestauranteVotacao[] = [];
     restaurantes.map( r => {
@@ -25,4 +35,8 @@ export async function novaVotacao(grupo: Grupo) {
         });
     });
     return restaurantesParaVotacao;
+}
+
+export async function verificaRestaurantesDaSemana() {
+
 }

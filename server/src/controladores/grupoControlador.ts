@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Grupo } from '../entidades/Grupo';
-import { grupoNovo, buscarGrupoID, atualizarGrupo } from '../persistencia/grupoRepositorio';
+import { grupoNovo, buscarGrupoID, atualizarGrupo, novaVotacaoGrupo } from '../persistencia/grupoRepositorio';
 import { Restaurante, RestauranteBusca } from '../entidades/Restaurante';
 
 export async function novoGrupo(req: Request, res: Response, next: NextFunction) {
@@ -40,5 +40,18 @@ export async function restauranteVisitado(req: Request, res: Response, next: Nex
     } catch (err) {
         next(err);
     }
+}
 
+export async function novaVotacao(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { id } = req.params;
+        const result = await novaVotacaoGrupo(id);
+        if (result) {
+            res.json(result).end();
+        } else {
+            res.status(400).send('Grupo não existe');
+        }
+    } catch (err) {
+        next(err);
+    }
 }

@@ -3,8 +3,8 @@ import { RestauranteVotacao, Restaurante, RestauranteBusca } from "./Restaurante
 
 export interface Grupo {
     nome: string,
-    usuario: Usuario[],
+    integrantes: Usuario[],
     codigo: string,
-    restaurantesEscolhidos: RestauranteBusca[],
+    restaurantesEscolhidos: [{data: Date, restaurante: RestauranteBusca}],
     votacao: RestauranteVotacao[]
 }

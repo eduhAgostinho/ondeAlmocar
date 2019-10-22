@@ -11,7 +11,7 @@ export async function grupoNovo(grupo: Grupo) {
 }
 
 export async function buscarGrupoID(grupoID: string ) {
-    return GrupoModel.findById(grupoID).populate('usuario').populate('restaurante').exec();
+    return GrupoModel.findById(grupoID).populate('integrantes').populate('restaurantesEscolhidos.restaurante').populate('votacao.restaurante').exec();
 }
 
 export async function novaVotacaoGrupo(grupoID: string) {
@@ -24,6 +24,6 @@ export async function novaVotacaoGrupo(grupoID: string) {
 export async function atualizarGrupo(grupoID: string, restaurante: RestauranteBusca) {
     const grupo = await buscarGrupoID(grupoID);
     if ( !grupo ) { return false };
-    grupo.restaurantesEscolhidos.push(restaurante);
+    grupo.restaurantesEscolhidos.push({data: new Date(), restaurante});
     return grupo.save();
 }

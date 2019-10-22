@@ -3,12 +3,15 @@ import { Grupo } from "../entidades/Grupo";
 
 const GrupoSchema = new Schema({
     nome: { type: String, required: true },
-    usuario: [{ type: SchemaTypes.ObjectId, ref: 'usuario' }],
+    integrantes: [{ type: SchemaTypes.ObjectId, ref: 'usuario' }],
     codigo: { type: String, required: true },
-    restaurantesEscolhidos: [{ type: SchemaTypes.ObjectId, ref: 'restaurantesEscolhidos' }],
+    restaurantesEscolhidos: [{
+        restaurante: {type: SchemaTypes.ObjectId, ref: 'restaurante'},
+        data: { type: Date, default: new Date() }
+    }],
     votacao: [{ 
         restaurante: { type: SchemaTypes.ObjectId, ref: 'restaurante' },
-        curtidas : { types: Number, default: 0 },
+        curtidas : { type: Number, default: 0 },
         data: { type: Date, default: new Date() } 
     }]
 });
