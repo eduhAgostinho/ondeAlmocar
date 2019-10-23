@@ -27,3 +27,15 @@ export async function atualizarGrupo(grupoID: string, restaurante: RestauranteBu
     grupo.restaurantesEscolhidos.push({data: new Date(), restaurante});
     return grupo.save();
 }
+
+export async function curtirRestaurante(idGrupo: string, idRestaurante: string) {
+    const grupo = await GrupoModel.findById(idGrupo).exec();
+    if (grupo) {
+        grupo.votacao.map( r => { 
+            if (r.restaurante._id == idRestaurante) {
+                r.curtidas += 1;
+            } 
+        });
+        return grupo.save();
+    } else { return false; }
+}
