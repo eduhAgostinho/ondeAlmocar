@@ -27,6 +27,20 @@ export async function buscarGrupo(req: Request, res: Response, next: NextFunctio
     }
 }
 
+export async function novaVotacao(req: Request, res: Response, next: NextFunction) {
+    try {
+        const { id } = req.params;
+        const result = await novaVotacaoGrupo(id);
+        if (result) {
+            res.json(result).end();
+        } else {
+            res.status(400).send('Grupo não existe').end();
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
 export async function restauranteVisitado(req: Request, res: Response, next: NextFunction) {
     try {
         const restaurante = req.body as RestauranteBusca;
@@ -42,25 +56,12 @@ export async function restauranteVisitado(req: Request, res: Response, next: Nex
     }
 }
 
-export async function novaVotacao(req: Request, res: Response, next: NextFunction) {
-    try {
-        const { id } = req.params;
-        const result = await novaVotacaoGrupo(id);
-        if (result) {
-            res.json(result).end();
-        } else {
-            res.status(400).send('Grupo não existe').end();
-        }
-    } catch (err) {
-        next(err);
-    }
-}
-
 export async function curtir(req: Request, res: Response, next: NextFunction) {
     try {
         const { idGrupo } = req.params;
         const { idRestaurante } = req.params;
-        const result = await curtirRestaurante(idGrupo, idRestaurante);
+        const { idUsuario } = req.params;
+        const result = await curtirRestaurante(idGrupo, idRestaurante, idUsuario);
         if (result) {
             res.json(result).end();
         } else {

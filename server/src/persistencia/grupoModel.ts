@@ -3,7 +3,6 @@ import { Grupo } from "../entidades/Grupo";
 
 const GrupoSchema = new Schema({
     nome: { type: String, required: true },
-    integrantes: [{ type: SchemaTypes.ObjectId, ref: 'usuario' }],
     codigo: { type: String, required: true },
     restaurantesEscolhidos: [{
         restaurante: {type: SchemaTypes.ObjectId, ref: 'restaurante'},

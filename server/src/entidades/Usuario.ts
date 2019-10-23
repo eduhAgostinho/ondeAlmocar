@@ -1,9 +1,9 @@
-import { Grupo } from "./Grupo";
+import { Grupo, GrupoBusca } from "./Grupo";
 
 export interface Usuario {
     nome: string,
     email: string,
     senha: string,
     ultimoVoto: Date,
-    grupo: Grupo
+    grupo: GrupoBusca | null
 }

@@ -1,9 +1,8 @@
 import { Grupo } from "../entidades/Grupo";
 import { GrupoModel } from "./grupoModel";
 import { criarCodigo, novaVotacao } from "../negocio/negocio";
-import { RestauranteVotacao, Restaurante, RestauranteBusca } from "../entidades/Restaurante";
+import { RestauranteBusca } from "../entidades/Restaurante";
 import { UsuarioModel } from "./usuarioModel";
-import { RestauranteModel } from "./restauranteModel";
 
 export async function grupoNovo(grupo: Grupo) {
     grupo.codigo = await criarCodigo(7);
@@ -11,7 +10,7 @@ export async function grupoNovo(grupo: Grupo) {
 }
 
 export async function buscarGrupoID(grupoID: string ) {
-    return GrupoModel.findById(grupoID).populate('integrantes').populate('restaurantesEscolhidos.restaurante').populate('votacao.restaurante').exec();
+    return GrupoModel.findById(grupoID).populate('restaurantesEscolhidos.restaurante').populate('votacao.restaurante').exec();
 }
 
 export async function novaVotacaoGrupo(grupoID: string) {
@@ -28,14 +27,19 @@ export async function atualizarGrupo(grupoID: string, restaurante: RestauranteBu
     return grupo.save();
 }
 
-export async function curtirRestaurante(idGrupo: string, idRestaurante: string) {
+export async function curtirRestaurante(idGrupo: string, idRestaurante: string, idUsuario: string) {
     const grupo = await GrupoModel.findById(idGrupo).exec();
-    if (grupo) {
+    const usuario = await UsuarioModel.findById(idUsuario).exec();
+    if (!grupo || !usuario) {
+        return false;
+    } else {
+        usuario.ultimoVoto = new Date();
+        usuario.save();
         grupo.votacao.map( r => { 
             if (r.restaurante._id == idRestaurante) {
                 r.curtidas += 1;
             } 
         });
         return grupo.save();
-    } else { return false; }
+    }
 }

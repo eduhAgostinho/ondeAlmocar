@@ -1,6 +1,7 @@
 import app from './app';
 import {connect} from 'mongoose';
 import { GrupoModel } from './persistencia/grupoModel';
+import { UsuarioModel } from './persistencia/usuarioModel';
 
 (async () => {
      try {
@@ -13,7 +14,7 @@ import { GrupoModel } from './persistencia/grupoModel';
 
           app.listen(app.get('port'), () => {
                console.log(`Express executando em http://localhost:${app.get('port')} no modo ${app.get('env')}`);
-          });
+          }); 
      } catch (error) {
           console.log('Erro:');
           console.log(error);
