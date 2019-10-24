@@ -1,11 +1,12 @@
 import { Grupo } from "../entidades/Grupo";
 import { GrupoModel } from "./grupoModel";
-import { criarCodigo, novaVotacao } from "../negocio/negocio";
+import * as Negocio from '../negocio/negocio';
 import { RestauranteBusca } from "../entidades/Restaurante";
 import { UsuarioModel } from "./usuarioModel";
+import * as GrupoRespositorio from './grupoRepositorio';
 
 export async function grupoNovo(grupo: Grupo) {
-    grupo.codigo = await criarCodigo(7);
+    grupo.codigo = await Negocio.criarCodigo(7);
     return GrupoModel.create(grupo);
 }
 
@@ -14,9 +15,9 @@ export async function buscarGrupoID(grupoID: string ) {
 }
 
 export async function novaVotacaoGrupo(grupoID: string) {
-    const grupo = await buscarGrupoID(grupoID);
+    const grupo = await GrupoRespositorio.buscarGrupoID(grupoID);
     if ( !grupo ) { return false };
-    grupo.votacao = await novaVotacao(grupo);
+    grupo.votacao = await Negocio.novaVotacao(grupo);
     return grupo.save();
 }
 

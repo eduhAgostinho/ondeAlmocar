@@ -14,5 +14,5 @@ const GrupoSchema = new Schema({
         data: { type: Date, default: new Date() } 
     }]
 });
-interface GrupoDocument extends Document, Grupo {}
+interface GrupoDocument extends Document, Grupo {};
 export const GrupoModel = model<GrupoDocument>('grupo', GrupoSchema);

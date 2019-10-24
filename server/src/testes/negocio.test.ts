@@ -1,6 +1,6 @@
 import { criarCodigo, novaVotacao } from "../negocio/negocio";
 import { Grupo } from "../entidades/Grupo";
-import { Restaurante, RestauranteBusca } from "../entidades/Restaurante";
+import { RestauranteBusca } from "../entidades/Restaurante";
 import * as respositorioRestaurante from "../persistencia/restauranteRepositorio";
 
 

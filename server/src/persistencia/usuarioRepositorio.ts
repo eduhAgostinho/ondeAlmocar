@@ -2,8 +2,7 @@ import { Usuario } from "../entidades/Usuario";
 import { UsuarioModel } from './usuarioModel';
 import { hash } from 'bcrypt';
 import { GrupoModel } from "./grupoModel";
-import { buscarGrupoID } from "./grupoRepositorio";
-import { Grupo, GrupoBusca } from "../entidades/Grupo";
+import { GrupoBusca } from "../entidades/Grupo";
 
 export async function novoUsuario(usuario: Usuario) {
     usuario.senha  = await hash(usuario.senha, 10);
