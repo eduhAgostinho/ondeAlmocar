@@ -1,6 +1,6 @@
 import { Grupo } from "../entidades/Grupo";
-import { buscarRestaurantes } from "../persistencia/restauranteRepositorio";
 import { RestauranteVotacao } from "../entidades/Restaurante";
+import * as restauranteRepositorio  from "../persistencia/restauranteRepositorio";
 
 export async function criarCodigo(tamanho: number) {
     let resultado = '';
@@ -25,7 +25,7 @@ export async function novaVotacao(grupo: Grupo) {
     });
 
     grupo.restaurantesEscolhidos.map( r => { ids.push(r.restaurante._id) } );
-    const restaurantes = await buscarRestaurantes(ids);
+    const restaurantes = await restauranteRepositorio.buscarRestaurantes(ids);
     const restaurantesParaVotacao: RestauranteVotacao[] = [];
     restaurantes.map( r => {
         restaurantesParaVotacao.push({ 

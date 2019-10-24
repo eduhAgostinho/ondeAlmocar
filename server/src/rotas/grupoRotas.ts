@@ -1,6 +1,5 @@
 import { Router } from "express";
 import * as GrupoControlador from '../controladores/grupoControlador';
-import { GrupoModel } from "../persistencia/grupoModel";
 
 export const router = Router();
 

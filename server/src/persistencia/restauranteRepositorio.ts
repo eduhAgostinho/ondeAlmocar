@@ -8,4 +8,3 @@ export async function novoRestaurante(restaurante: Restaurante) {
 export async function buscarRestaurantes(ids ?: string[]) {
     return RestauranteModel.find({ _id: { $nin: ids } }).exec();
 }
-
