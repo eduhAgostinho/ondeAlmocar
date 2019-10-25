@@ -4,6 +4,7 @@ import * as Negocio from '../negocio/negocio';
 import { RestauranteBusca } from "../entidades/Restaurante";
 import { UsuarioModel } from "./usuarioModel";
 import * as GrupoRespositorio from './grupoRepositorio';
+import * as RestauranteRespositorio from './restauranteRepositorio';
 
 export async function grupoNovo(grupo: Grupo) {
     grupo.codigo = await Negocio.criarCodigo(7);
@@ -22,10 +23,11 @@ export async function novaVotacaoGrupo(grupoID: string) {
 }
 
 export async function atualizarGrupo(grupoID: string, restaurante: RestauranteBusca) {
-    const grupo = await buscarGrupoID(grupoID);
-    if ( !grupo ) { return false };
-    grupo.restaurantesEscolhidos.push({data: new Date(), restaurante});
-    return grupo.save();
+    const grupo = await GrupoRespositorio.buscarGrupoID(grupoID);
+    const restauranteDocument = await RestauranteRespositorio.buscarRestaurantePorId(restaurante._id);
+    if ( !grupo && !restauranteDocument) { return false };
+    grupo!.restaurantesEscolhidos.push({data: new Date(), restaurante});
+    return grupo!.save();
 }
 
 export async function curtirRestaurante(idGrupo: string, idRestaurante: string, idUsuario: string) {
