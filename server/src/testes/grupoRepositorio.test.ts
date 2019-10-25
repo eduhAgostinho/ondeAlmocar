@@ -1,14 +1,13 @@
-
 import * as GrupoModule from '../persistencia/grupoModel';
-import * as NegocioModule from '../negocio/negocio';
 import * as GrupoRepositorio from '../persistencia/grupoRepositorio';
 import * as RestauranteRespositorio from '../persistencia/restauranteRepositorio';
+import * as NegocioModule from '../negocio/negocio';
 
 import { Grupo } from '../entidades/Grupo';
 import { RestauranteVotacao, RestauranteBusca } from '../entidades/Restaurante';
 import { RestauranteModel } from "../persistencia/restauranteModel";
 
-let grupo: Grupo = {
+let grupoTeste: Grupo = {
     codigo: 'ABf5aA7',
     nome: 'Restaurante Teste',
     restaurantesEscolhidos: [],
@@ -24,8 +23,8 @@ let restaurantesVotacao: RestauranteVotacao[] = [
 ];
 describe('Testes em GrupoRepositorio', () => {
 
-    afterAll(() => {
-        grupo = {
+    afterEach(() => {
+        grupoTeste = {
             codigo: 'ABf5aA7',
             nome: 'Restaurante Teste',
             restaurantesEscolhidos: [],
@@ -38,13 +37,13 @@ describe('Testes em GrupoRepositorio', () => {
             const GrupoModel = GrupoModule.GrupoModel;
             const Negocio = NegocioModule;
             Negocio.criarCodigo = jest.fn().mockReturnValue('aGb7da');
-            GrupoModel.create = jest.fn().mockReturnValue(grupo);
+            GrupoModel.create = jest.fn().mockReturnValue(grupoTeste);
 
             //Act
-            const result = await GrupoRepositorio.grupoNovo(grupo);
+            const result = await GrupoRepositorio.grupoNovo(grupoTeste);
 
             //Assert
-            expect(result).toEqual(grupo);
+            expect(result).toEqual(grupoTeste);
             expect(GrupoModel.create).toBeCalledTimes(1);
             expect(Negocio.criarCodigo).toBeCalledTimes(1);
         });
@@ -92,34 +91,32 @@ describe('Testes em GrupoRepositorio', () => {
                 //Arrange                
                 let GrupoRepositorioA = GrupoRepositorio;
                 let Repositoriorestaurante = RestauranteRespositorio;
-
-                const grupo = new GrupoModule.GrupoModel();
+                const grupo = new GrupoModule.GrupoModel(grupoTeste);
+                const rest = new RestauranteModel(restaurantes[0]);
                 GrupoRepositorioA.buscarGrupoID = jest.fn().mockReturnValue(grupo);
-                Repositoriorestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(restaurantes[0]);
-
+                Repositoriorestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(rest);
                 grupo.save = jest.fn().mockReturnValue(grupo);
 
                 //Act 
-                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', restaurantes[0]);
+                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest);
 
                 //Assert
                 expect(resultado).toEqual(grupo);
                 expect(grupo.restaurantesEscolhidos.length).toEqual(1);
-                console.log(restaurantes[0]);
-                console.log(grupo); 
-                // expect(grupo.restaurantesEscolhidos[0].restaurante).toStrictEqual(restaurantes[0]);
+                expect(grupo.restaurantesEscolhidos[0].restaurante).toStrictEqual(rest);
             });
 
             // it('Recebe um ID de um grupo inexistente e um Restaurante e retorna falso', async () => {
             //     //Arrange                
             //     let GrupoRepositorioA = GrupoRepositorio;
             //     let Repositoriorestaurante = RestauranteRespositorio;
-            //     const grupo = new GrupoModule.GrupoModel();
-            //     Repositoriorestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(restaurantes[0]);
+            //     const grupo = new GrupoModule.GrupoModel(grupoTeste);
+            //     const rest = new RestauranteModel(restaurantes[0]);
+            //     Repositoriorestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(rest);
             //     GrupoRepositorioA.buscarGrupoID = jest.fn().mockReturnValue(false);
             //     grupo.save = jest.fn().mockReturnValue(grupo);
             //     //Act 
-            //     const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', restaurantes[0]);
+            //     const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest);
 
             //     //Assert
             //     expect(resultado).toEqual(false);
@@ -128,5 +125,4 @@ describe('Testes em GrupoRepositorio', () => {
             // });
         });
     });
-
 });
