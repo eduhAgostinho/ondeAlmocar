@@ -1,7 +1,7 @@
 import { criarCodigo, novaVotacao } from "../negocio/negocio";
 import { Grupo } from "../entidades/Grupo";
 import { RestauranteBusca } from "../entidades/Restaurante";
-import * as respositorioRestaurante from "../persistencia/restauranteRepositorio";
+import * as repositorioRestaurante from "../persistencia/restauranteRepositorio";
 
 
 describe('Testes em Negocio', () => {
@@ -29,7 +29,7 @@ describe('Testes em Negocio', () => {
             restaurantesEscolhidos: [{ data: new Date(), restaurante: { nome: 'Restaurante1', endereco: 'Rua Teste, 422', _id: 'id1' } }],
             votacao: []
         }
-        let restauranteRepositorio = respositorioRestaurante;
+        let restauranteRepositorio = repositorioRestaurante;
         
         it('recebe um Grupo como argumento com um Restaurante usado na semana, e retorna lista de todos Restaurantes sem ele', async () => {
 

@@ -1,7 +1,7 @@
 import * as GrupoModule from '../persistencia/grupoModel';
 import * as UsuarioModule from '../persistencia/usuarioModel';
 import * as RepositorioGrupo from '../persistencia/grupoRepositorio';
-import * as RestauranteRespositorio from '../persistencia/restauranteRepositorio';
+import * as RestauranteRepositorio from '../persistencia/restauranteRepositorio';
 import * as NegocioModule from '../negocio/negocio';
 import * as RepositorioUsuario from '../persistencia/usuarioRepositorio';
 
@@ -16,6 +16,7 @@ let grupoTeste: Grupo = {
     restaurantesEscolhidos: [],
     votacao: []
 }
+
 let restaurantes: RestauranteBusca[] = [
     { nome: 'Restaurante1', endereco: 'Rua Teste, 422', _id: 'id1' },
     { nome: 'Restaurante2', endereco: 'Av. Ipiranga, 120 - Porto Alegre', _id: 'id2' }
@@ -32,6 +33,7 @@ let usuario: Usuario = {
     senha: 'senha',
     ultimoVoto: new Date(2019,1,15)
 }
+
 describe('Testes em GrupoRepositorio', () => {
 
     afterEach(() => {
@@ -101,7 +103,7 @@ describe('Testes em GrupoRepositorio', () => {
             it('Recebe um ID de um grupo e um Restaurante e o acrescenta como já visitado', async () => {
                 //Arrange                
                 let GrupoRepositorio = RepositorioGrupo;
-                let Repositoriorestaurante = RestauranteRespositorio;
+                let Repositoriorestaurante = RestauranteRepositorio;
                 const grupo = new GrupoModule.GrupoModel(grupoTeste);
                 const rest = new RestauranteModel(restaurantes[0]);
                 GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(grupo);
@@ -120,7 +122,7 @@ describe('Testes em GrupoRepositorio', () => {
             it('Recebe um ID de um grupo inexistente e um Restaurante e retorna falso', async () => {
                 //Arrange                
                 let GrupoRepositorio = RepositorioGrupo;
-                let RepositorioRestaurante = RestauranteRespositorio;
+                let RepositorioRestaurante = RestauranteRepositorio;
                 const grupo = new GrupoModule.GrupoModel(grupoTeste);
                 const rest = new RestauranteModel(restaurantes[0]);
                 RepositorioRestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(rest);
