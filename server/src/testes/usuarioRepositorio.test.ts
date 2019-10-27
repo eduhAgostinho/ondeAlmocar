@@ -4,6 +4,7 @@ import { Usuario } from '../entidades/Usuario';
 import { UsuarioModel } from '../persistencia/usuarioModel';
 import { Grupo, GrupoBusca } from '../entidades/Grupo';
 import { GrupoModel } from '../persistencia/grupoModel';
+import * as bcrypt from 'bcrypt';
 
 let usuario: Usuario = {
     email: 'usuario@email.com',
@@ -21,6 +22,23 @@ let grupoTeste: Grupo = {
 }
 
 describe('Testes em usuarioRepositorio', () => {
+    describe('novoUsuario', () => {
+        it('Recebe um Usuario e retorna o objeto cadastrado', async () => {
+            //Arrange
+            let user = new UsuarioModel(usuario);
+            const Bcrypt = bcrypt;
+            UsuarioModel.create = jest.fn().mockReturnValue(user);
+            Bcrypt.hash = jest.fn().mockReturnValue('novaSenha');
+            
+            //Act
+            const resultado = await RepositorioUsuario.novoUsuario(usuario);
+
+            //Assert
+            expect(resultado).toBeTruthy();
+            expect(UsuarioModel.create).toBeCalledTimes(1);
+        });
+    });
+
     describe('atualizarUsuario', () => {
         it('Recebe um email de um Usuario e um Grupo como argumento e retorna o Usuario atualizado', async () => {
             //Arrange
