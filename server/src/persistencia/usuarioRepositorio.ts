@@ -13,6 +13,10 @@ export async function buscarUsuario(email: string) {
     return UsuarioModel.findOne().where('email').equals(email).populate('grupo', GrupoModel).exec();
 }
 
+export async function buscarUsuarioID(id: string) {
+    return UsuarioModel.findById(id).exec();
+}
+
 export async function atualizarUsuario(email: string, grupo: GrupoBusca) {
     const usuario = await buscarUsuario(email);
     if (!usuario) { return false; }
