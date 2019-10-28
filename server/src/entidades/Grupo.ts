@@ -3,7 +3,7 @@ import { RestauranteVotacao, Restaurante, RestauranteBusca } from "./Restaurante
 
 export interface Grupo {
     nome: string,
-    codigo: string,
+    codigo?: string,
     restaurantesEscolhidos: {data: Date, restaurante: RestauranteBusca}[],
     votacao: RestauranteVotacao[]
 }

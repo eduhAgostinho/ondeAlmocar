@@ -10,8 +10,7 @@ const LocalStrategy = passportlocal.Strategy;
 export const pass = passport;
 
 pass.use('login', new LocalStrategy(async (user, passwd, done) => {
-    const busca = await usuarioRepositorio.buscarUsuario(user.toLowerCase());
-
+    const busca = await usuarioRepositorio.buscarUsuario(user);
     if (busca === null || !await compare(passwd, busca.senha) ) {
         return done(undefined, false, { message: 'Usuário ou senha inválidos' });
     }

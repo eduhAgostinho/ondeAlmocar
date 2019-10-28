@@ -6,7 +6,7 @@ const UsuarioSchema = new Schema({
     email: { type: String, required: true, unique: true },
     senha: { type: String, required: true },
     ultimoVoto: { type: Date, default: new Date() },
-    grupo: { type: SchemaTypes.ObjectId, ref: 'grupo'}    
+    grupo: { type: SchemaTypes.ObjectId, ref: 'grupo', default: null}    
 });
 interface UsuarioDocument extends Document, Usuario {}
 export const UsuarioModel = model<UsuarioDocument>('usuario', UsuarioSchema);
