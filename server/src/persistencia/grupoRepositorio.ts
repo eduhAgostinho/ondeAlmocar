@@ -34,7 +34,12 @@ export async function atualizarGrupo(grupoID: string, restaurante: any) {
 export async function curtirRestaurante(idGrupo: string, idRestaurante: string, idUsuario: string) {
     const grupo = await GrupoRepositorio.buscarGrupoID(idGrupo);
     const usuario = await UsuarioRepositorio.buscarUsuarioID(idUsuario);
-    if (!grupo || !usuario) { return false; }
+    const dataAtual = new Date();
+    if (!grupo || !usuario ||
+        (usuario.ultimoVoto.getFullYear() === dataAtual.getFullYear() &&
+            usuario.ultimoVoto.getMonth() === dataAtual.getMonth() &&
+            usuario.ultimoVoto.getDate() === dataAtual.getDate())
+    ) { return false; }
     usuario.ultimoVoto = new Date();
     usuario.save();
     grupo.votacao.map(r => {

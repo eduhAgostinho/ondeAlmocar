@@ -5,6 +5,7 @@ import cors from 'cors';
 import { router as routerUsuario } from './rotas/usuarioRotas';
 import { router as routerGrupo } from './rotas/grupoRotas';
 import { router as routerRestaurante } from './rotas/restauranteRotas';
+import { pass } from './persistencia/autenticacao' ;
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended: false } ));
 app.use(cors());
+app.use(pass.initialize());
 app.use('/usuario', routerUsuario);
 app.use('/grupo', routerGrupo);
 app.use('/restaurante', routerRestaurante);
