@@ -47,7 +47,7 @@ export async function restauranteVisitado(req: Request, res: Response, next: Nex
         const { id } = req.params;
         const result = await atualizarGrupo(id, restaurante);
         if ( result ) {
-            res.send('Atualizado com sucesso').end();
+            res.json(result).send('Atualizado com sucesso').end();
         } else {
             res.status(400).send('Requisição inválida').end();
         }
