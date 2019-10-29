@@ -1,0 +1,23 @@
+<section id="main">
+        <header>
+            <h1>Bem-vindo!</h1>
+        </header>
+        <main>
+            <form (ngSubmit)="submeter()" #loginForm="ngForm">
+                <div *ngIf="erro" class="alert">
+                    <span class="closebtn" (click)="erroFalso()">&times;</span> {{mensagem}}
+                </div>
+                <div class="exemple-container">
+                    <mat-form-field>
+                        <input matInput placeholder="Usuário" required name="username" id="username" >
+                    </mat-form-field>
+    
+                    <mat-form-field>
+                        <input (keypress)="$event.key == 'Enter'?submeter():''" type="password" matInput placeholder="Senha"
+                         required name="password" id="password">
+                    </mat-form-field>
+                </div>
+                <button mat-raised-button type="submit" id="entrar" [disabled]="!loginForm.form.valid" tabindex="0">Entrar</button>
+            </form>
+        </main>
+    </section>

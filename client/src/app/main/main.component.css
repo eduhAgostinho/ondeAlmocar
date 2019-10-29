@@ -1,0 +1,12 @@
+span {
+    height: 100%;
+    margin-right: 10px;
+}
+
+#nomeUsuario {
+    font-size: 17px;
+}
+
+#emailUsuario {
+    font-size: 12px;
+}
