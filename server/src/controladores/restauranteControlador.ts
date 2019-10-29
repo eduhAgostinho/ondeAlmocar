@@ -6,18 +6,9 @@ export async function restauranteNovo(req: Request, res: Response, next: NextFun
     try {
         const restaurante = req.body as Restaurante;
         await novoRestaurante(restaurante);
-        res.status(201).send('Cadastrado com sucesso');
+        res.status(201).send('Cadastrado com sucesso').end();
     } catch (err) {
         next(err);
     }
 } 
 
-export async function restaurantes(req: Request, res: Response, next: NextFunction) {
-    try {
-        const ids = req.query.id;
-        const restaurantes = await buscarRestaurantes(ids);
-        res.json(restaurantes).end();
-    } catch (err) {
-        next(err);
-    }
-}

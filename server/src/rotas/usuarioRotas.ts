@@ -25,6 +25,7 @@ router.post('/login', (req,res,next) => {
             return next(error);
         }
     })(req,res,next);
-});router.get('/:email', UsuarioControlador.buscarPorEmail);
+});
+router.get('/:email', UsuarioControlador.buscarPorEmail);
 router.put('', UsuarioControlador.usuarioNovo);
 router.post('/:email', UsuarioControlador.atualizaUsuario);
