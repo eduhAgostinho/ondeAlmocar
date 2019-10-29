@@ -28,10 +28,10 @@ export async function buscarPorEmail(req: Request, res: Response, next: NextFunc
 export async function atualizaUsuario(req: Request, res: Response, next: NextFunction) {
     try {
         const { email } = req.params;
-        const { grupo } = req.body;
+        const grupo = req.body;
         const result = await atualizarUsuario(email, grupo);
         if ( result ) {
-            res.send('Atualizado com sucesso').end();
+            res.json(result).end();
         } else {
             res.status(400).send('Requisição inválida');
         }

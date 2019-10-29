@@ -3,6 +3,7 @@ import * as UsuarioControlador from '../controladores/usuarioControlador';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 
+
 export const router = Router();
 
 router.post('/login', (req,res,next) => {
@@ -26,6 +27,6 @@ router.post('/login', (req,res,next) => {
         }
     })(req,res,next);
 });
-router.get('/:email', UsuarioControlador.buscarPorEmail);
+router.get('/:email',  passport.authenticate('jwt', {session:false}), UsuarioControlador.buscarPorEmail);
 router.put('', UsuarioControlador.usuarioNovo);
-router.post('/:email', UsuarioControlador.atualizaUsuario);
+router.post('/:email',  passport.authenticate('jwt', {session:false}), UsuarioControlador.atualizaUsuario);
