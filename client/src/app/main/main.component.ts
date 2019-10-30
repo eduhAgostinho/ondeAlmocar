@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageService } from 'src/services/storage.service';
+import { StorageService } from '../../services/storage.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { AutenticacaoService } from '../../services/autenticacao.service';
+import { Subscription } from 'rxjs';
+import { ApiService } from 'src/services/api.service';
+import { Usuario } from 'src/models/usuario';
 
 @Component({
   selector: 'app-main',
@@ -11,9 +15,25 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 })
 export class MainComponent implements OnInit {
   msgSair = 'Tem certeza que deseja sair?';
-  constructor(private storage: StorageService, private router: Router, private dialog: MatDialog) { }
+  nome = '';
+  email = '';
+  sub: Subscription;
+  constructor(
+    private storage: StorageService,
+    private router: Router,
+    private dialog: MatDialog,
+    private auth: AutenticacaoService,
+    private api: ApiService
+    ) { }
 
   ngOnInit() {
+    const token = this.storage.get('token');
+    const decoded = this.auth.decode(token);
+    this.email = decoded.user;
+    this.sub = this.api.buscarUsuario(this.email).subscribe((result) => {
+      const a = result as Usuario;
+      this.nome = a.nome;
+    });
   }
 
   logout() {

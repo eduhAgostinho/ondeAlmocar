@@ -16,9 +16,9 @@ import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GuardAuthService } from 'src/guards/guard-auth.service';
-import { AutenticacaoService } from 'src/services/autenticacao.service';
+import { AutenticacaoService } from '../services/autenticacao.service';
 import { GuardLoginService } from 'src/guards/guard-login.service';
-import { StorageService } from 'src/services/storage.service';
+import { StorageService } from '../services/storage.service';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({

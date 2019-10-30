@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario, UsuarioLogin } from 'src/models/usuario';
 import { Subscription } from 'rxjs';
-import { AutenticacaoService } from 'src/services/autenticacao.service';
-import { StorageService } from 'src/services/storage.service';
+import { AutenticacaoService } from '../../services/autenticacao.service';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-login',

@@ -23,8 +23,8 @@ export class AutenticacaoService {
 
   tokenExpirado() {
     const token = this.storageService.get('token');
-    const decode = jwt_decode(token) as any;
-    const payload = decode.exp;
+    const decoded = this.decode(token);
+    const payload = decoded.exp;
     const nowTimestamp = Math.floor(+new Date() / 1000);
     if (payload > nowTimestamp) {
       return false;
@@ -36,8 +36,7 @@ export class AutenticacaoService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    // return this.http.post(environment.urlLogin, usuario, httpOptions).pipe(map(res => res || null),
-    return this.http.post(environment.login, usuario, httpOptions).pipe(map(res => res || null),
+    return this.http.post(`${environment.urlUsuario}/login`, usuario, httpOptions).pipe(map(res => res || null),
       catchError(tratadorError()));
   }
 
@@ -53,6 +52,10 @@ export class AutenticacaoService {
   logout(): void {
     this.limpa();
     this.router.navigate(['/login']);
+  }
+
+  decode(token) {
+    return jwt_decode(token) as any;
   }
 
 }
