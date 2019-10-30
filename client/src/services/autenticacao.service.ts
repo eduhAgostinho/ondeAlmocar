@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Usuario } from '../models/usuario';
+import { Usuario, UsuarioLogin } from '../models/usuario';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
 import { environment } from 'src/environments/environment';
@@ -32,7 +32,7 @@ export class AutenticacaoService {
     return true;
   }
 
-  login(usuario: Usuario) {
+  login(usuario: UsuarioLogin) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };

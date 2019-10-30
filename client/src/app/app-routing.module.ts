@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
-
+import { GuardAuthService } from '../guards/guard-auth.service';
+import { GuardLoginService } from '../guards/guard-login.service';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: '', component: MainComponent },
+  { path: 'login', resolve: [GuardLoginService], component: LoginComponent },
+  { path: '', resolve: [GuardAuthService], component: MainComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

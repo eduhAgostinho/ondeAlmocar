@@ -14,6 +14,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GuardAuthService } from 'src/guards/guard-auth.service';
+import { AutenticacaoService } from 'src/services/autenticacao.service';
+import { GuardLoginService } from 'src/guards/guard-login.service';
+import { StorageService } from 'src/services/storage.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
+    GuardAuthService,
+    AutenticacaoService,
+    GuardLoginService,
+    StorageService
   ],
   bootstrap: [AppComponent]
 })
