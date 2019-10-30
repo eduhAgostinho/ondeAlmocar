@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Usuario, UsuarioLogin } from '../models/usuario';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import * as jwt_decode from 'jwt-decode';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { StorageService } from './storage.service';
 import { map, catchError } from 'rxjs/operators';
 import { tratadorError } from './tratador-de-erros';
@@ -36,6 +36,7 @@ export class AutenticacaoService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
+    // return this.http.post(environment.urlLogin, usuario, httpOptions).pipe(map(res => res || null),
     return this.http.post(environment.login, usuario, httpOptions).pipe(map(res => res || null),
       catchError(tratadorError()));
   }

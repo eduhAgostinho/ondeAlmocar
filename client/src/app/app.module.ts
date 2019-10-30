@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AuthInterceptor } from '../services/Auth.interceptor';
 
@@ -18,12 +19,14 @@ import { GuardAuthService } from 'src/guards/guard-auth.service';
 import { AutenticacaoService } from 'src/services/autenticacao.service';
 import { GuardLoginService } from 'src/guards/guard-login.service';
 import { StorageService } from 'src/services/storage.service';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainComponent
+    MainComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -35,13 +38,17 @@ import { StorageService } from 'src/services/storage.service';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
+  ],
+  entryComponents: [
+    ConfirmDialogComponent
   ],
   providers: [{
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    },
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },
     GuardAuthService,
     AutenticacaoService,
     GuardLoginService,

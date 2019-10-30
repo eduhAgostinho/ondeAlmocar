@@ -6,8 +6,8 @@ import { GuardAuthService } from '../guards/guard-auth.service';
 import { GuardLoginService } from '../guards/guard-login.service';
 
 const routes: Routes = [
-  { path: 'login', resolve: [GuardLoginService], component: LoginComponent },
-  { path: '', resolve: [GuardAuthService], component: MainComponent },
+  { path: 'login', canActivate: [GuardLoginService], component: LoginComponent },
+  { path: '', canActivate: [GuardAuthService], component: MainComponent },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 

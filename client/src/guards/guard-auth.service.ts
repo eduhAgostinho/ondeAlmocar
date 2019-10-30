@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AutenticacaoService } from '../../../../Projeto/incubadora-2019-front/src/app/servicos/autenticacao.service';
+import { AutenticacaoService } from 'src/services/autenticacao.service';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
 
