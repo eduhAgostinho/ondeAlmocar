@@ -18,7 +18,7 @@ router.post('/login', (req,res,next) => {
                     res.status(404).json(info);
                     return next(err);
                 }
-                const token = jwt.sign({user:user.nomeUsuario}, '9b7a699568708d417f18d41e4c6c06ba2d802a2f', { expiresIn: 86400});
+                const token = jwt.sign({user:user}, '9b7a699568708d417f18d41e4c6c06ba2d802a2f', { expiresIn: 86400});
                 return res.json({token});
             });
         }

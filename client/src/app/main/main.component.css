@@ -9,4 +9,9 @@ span {
 
 #emailUsuario {
     font-size: 12px;
+    color: rgb(201, 201, 201);
+}
+
+mat-toolbar-row {
+    background-color: rgb(71, 71, 71);
 }

@@ -1,23 +1,47 @@
 <section id="main">
-        <header>
-            <h1>Bem-vindo!</h1>
-        </header>
-        <main>
-            <form (ngSubmit)="submeter()" #loginForm="ngForm">
-                <div *ngIf="erro" class="alert">
-                    <span class="closebtn" (click)="erroFalso()">&times;</span> {{mensagem}}
-                </div>
-                <div class="exemple-container">
-                    <mat-form-field>
-                        <input matInput placeholder="Usuário" required name="username" id="username" >
-                    </mat-form-field>
-    
-                    <mat-form-field>
-                        <input (keypress)="$event.key == 'Enter'?submeter():''" type="password" matInput placeholder="Senha"
-                         required name="password" id="password">
-                    </mat-form-field>
-                </div>
-                <button mat-raised-button type="submit" id="entrar" [disabled]="!loginForm.form.valid" tabindex="0">Entrar</button>
-            </form>
-        </main>
-    </section>
+    <header>
+        <h1>Bem-vindo!</h1>
+    </header>
+    <main>
+        <form (ngSubmit)="login()" #loginForm="ngForm">
+            <h3>Login</h3>
+            <div *ngIf="erro" class="alert">
+                <span class="closebtn" (click)="erroFalso()">&times;</span> {{mensagem}}
+            </div>
+            <mat-form-field>
+                <input matInput placeholder="E-mail" type="email" email required name="email" id="email"
+                    #email="ngModel" [(ngModel)]="usuario.email">
+            </mat-form-field>
+            <span *ngIf="!email.valid && email.touched" class="emailInvalid">Formato de e-mail inválido</span>
+            <mat-form-field>
+                <input type="password" matInput placeholder="Senha" required name="password" id="password"
+                    [(ngModel)]="usuario.senha">
+            </mat-form-field>
+            <button mat-raised-button type="submit" id="entrar" [disabled]="!loginForm.form.valid && !email.valid"
+                tabindex="0">Entrar</button>
+        </form>
+        <div id="divBorda"></div>
+        <form id="formCad" (ngSubmit)="cadastrar()" #cadForm="ngForm">
+            <h3>Cadastro</h3>
+            <div *ngIf="erro" class="alert">
+                <span class="closebtn" (click)="erroFalso()"></span> {{mensagem}}
+            </div>
+            <mat-form-field>
+                <input matInput placeholder="Nome" required name="usernameCad" id="usernameCad" #usernameCad="ngModel"
+                    [(ngModel)]="novoUsuario.nome">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="E-mail" email type="email" required name="emailCad" id="emailCad"
+                    #emailCad="ngModel" [(ngModel)]="novoUsuario.email">
+            </mat-form-field>
+            <span *ngIf="!emailCad.valid && emailCad.touched" class="emailInvalid">Formato de e-mail inválido</span>
+            <mat-form-field>
+                <input type="password" matInput placeholder="Senha" required name="passwordCad" id="passwordCad"
+                    #passwordCad="ngModel" [(ngModel)]="novoUsuario.senha">
+            </mat-form-field>
+            <button mat-raised-button type="submit" id="entrar" [disabled]="!cadForm.form.valid && !emailCad.valid"
+                tabindex="0">Cadastrar</button>
+        </form>
+    </main>
+</section>

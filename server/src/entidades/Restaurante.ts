@@ -9,6 +9,6 @@ export interface RestauranteVotacao {
     data: Date
 }
 
-export interface RestauranteBusca extends Restaurante{
+export interface RestauranteBusca extends Restaurante {
     _id: string
 }
