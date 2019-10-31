@@ -1,0 +1,40 @@
+table {
+    width: 100%;
+    height: fit-content;
+    color: black;
+    text-align: center !important;
+}
+
+.mat-header-cell {
+    text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+    color: rgb(71, 71, 71)!important;
+    border-color: rgb(71, 71, 71)!important;
+}
+
+::ng-deep .mat-form-field-ripple {
+    background-color: rgb(71, 71, 71) !important;
+    border-color: rgb(71, 71, 71)!important;
+}
+
+#btnNovoGrupo {
+    background-color: rgb(0, 199, 132) !important;
+    color: white;
+}
+
+i {
+    font-size: 17px;
+}
+
+/* td {
+    width: 10px !important;
+}
+ */

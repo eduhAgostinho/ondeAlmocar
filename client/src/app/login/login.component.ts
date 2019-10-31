@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Usuario, UsuarioLogin } from 'src/models/usuario';
 import { Subscription } from 'rxjs';
 import { AutenticacaoService } from '../../services/autenticacao.service';
-import { ApiService } from 'src/services/api.service';
+import { UsuarioService } from 'src/services/usuario.service';
 import { SnackBarService } from 'src/services/snack-bar.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   senhaConfirmada: string;
   constructor(
     private auth: AutenticacaoService,
-    private api: ApiService,
+    private api: UsuarioService,
     private snackService: SnackBarService
   ) { }
   usuario: UsuarioLogin = {

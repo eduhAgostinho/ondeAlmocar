@@ -4,5 +4,5 @@
         <button id="sairBtn" (click)="logout()" mat-button>Sair</button>
     </mat-toolbar-row>
 </mat-toolbar>
-<app-dashboard-grupo *ngIf="usuarioLogado.grupo"></app-dashboard-grupo>
-<app-lista-grupos *ngIf="!usuarioLogado.grupo"></app-lista-grupos>
+<app-lista-grupos *ngIf="!grupo"></app-lista-grupos>
+<app-dashboard-grupo *ngIf="grupo"></app-dashboard-grupo>

@@ -5,7 +5,6 @@ export const BROWSER_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   factory: () => localStorage
 });
 
-
 @Injectable({
   providedIn: 'root'
 })

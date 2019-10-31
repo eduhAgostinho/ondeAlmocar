@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
 
 import { AuthInterceptor } from '../services/Auth.interceptor';
 
@@ -23,6 +25,8 @@ import { StorageService } from '../services/storage.service';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { ListaGruposComponent } from './main/lista-grupos/lista-grupos.component';
 import { DashboardGrupoComponent } from './main/dashboard-grupo/dashboard-grupo.component';
+import { UsuarioService } from 'src/services/usuario.service';
+import { GrupoService } from 'src/services/grupo.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,9 @@ import { DashboardGrupoComponent } from './main/dashboard-grupo/dashboard-grupo.
     MatInputModule,
     HttpClientModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatListModule
   ],
   entryComponents: [
     ConfirmDialogComponent
@@ -58,7 +64,9 @@ import { DashboardGrupoComponent } from './main/dashboard-grupo/dashboard-grupo.
     GuardAuthService,
     AutenticacaoService,
     GuardLoginService,
-    StorageService
+    StorageService,
+    UsuarioService,
+    GrupoService
   ],
   bootstrap: [AppComponent]
 })

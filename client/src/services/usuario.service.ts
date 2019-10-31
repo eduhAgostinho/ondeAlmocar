@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { tratadorError } from './tratador-de-erros';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Usuario } from 'src/models/usuario';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class UsuarioService {
   httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
   constructor(private http: HttpClient) { }
@@ -25,4 +25,5 @@ export class ApiService {
       catchError(tratadorError())
     );
   }
+
 }

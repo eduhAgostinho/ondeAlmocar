@@ -1,1 +1,25 @@
-<p>lista-grupos works!</p>
+<section>
+    <header>
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar grupo">
+        </mat-form-field>
+        <button id="btnNovoGrupo" mat-raised-button>
+            <i class="material-icons"> add </i>Novo grupo</button>
+        </header>
+    <main>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="nome">
+                <td mat-cell *matCellDef="let grupo"> {{grupo.nome}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="codigo">
+                <td mat-cell *matCellDef="let grupo">
+                    <button mat-raised-button class="btnEntrar" color="primary">Entrar</button>
+                </td>
+            </ng-container>
+
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </main>
+</section>

@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { AutenticacaoService } from '../../services/autenticacao.service';
 import { Subscription } from 'rxjs';
-import { ApiService } from 'src/services/api.service';
+import { UsuarioService } from 'src/services/usuario.service';
 import { Usuario } from 'src/models/usuario';
 import { SnackBarService } from 'src/services/snack-bar.service';
 import { Grupo } from 'src/models/grupo';
@@ -27,7 +27,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private auth: AutenticacaoService,
-    private api: ApiService,
+    private api: UsuarioService,
     private snackService: SnackBarService
     ) { }
 
