@@ -21,13 +21,17 @@ import { AutenticacaoService } from '../services/autenticacao.service';
 import { GuardLoginService } from 'src/guards/guard-login.service';
 import { StorageService } from '../services/storage.service';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { ListaGruposComponent } from './main/lista-grupos/lista-grupos.component';
+import { DashboardGrupoComponent } from './main/dashboard-grupo/dashboard-grupo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    ListaGruposComponent,
+    DashboardGrupoComponent
   ],
   imports: [
     BrowserModule,

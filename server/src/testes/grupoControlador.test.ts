@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../app';
 import { connect } from 'mongoose';
-import * as GrupoRepositorios from '../persistencia/grupoRepositorio';
+import * as GrupoRepositorio from '../persistencia/grupoRepositorio';
 import * as UsuarioRepositorio from '../persistencia/usuarioRepositorio';
 import { Usuario } from '../entidades/Usuario';
 import { Grupo } from '../entidades/Grupo';
@@ -71,7 +71,7 @@ describe('Teste de rotas para grupoControlador', () => {
     describe('buscarGrupo', () => {
         it('GET /Busca Grupo pelo ID e retorna status 200 OK', async () => {
             //Arrange
-            const grupoNovo = await GrupoRepositorios.grupoNovo(novoGrupo);
+            const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
 
             //Act
             const resposta = await request(app).get(`/grupo/${grupoNovo._id}`).set('Authorization', `bearer ${token}`);
@@ -101,10 +101,22 @@ describe('Teste de rotas para grupoControlador', () => {
         });
     });
 
+    
+    describe('buscarTodosGrupos', () => {
+        it('GET /Recebe um array de Grupos e retorna status 200', async () => {
+            //Act
+            const resposta = await request(app).get(`/grupo`).set('Authorization', `bearer ${token}`);
+
+            //Assert
+            expect(resposta.status).toBe(200);
+            expect(resposta.body.length).toBeGreaterThanOrEqual(0);
+        });
+    });
+
     describe('novaVotacao', () => {
         it('POST /Recebe um ID de um grupo, inicia uma nova votação e retorna status 200 OK', async () => {
             //Arrange
-            const grupoNovo = await GrupoRepositorios.grupoNovo(novoGrupo);
+            const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
             await novoRestaurante(restaurante);
 
             //Act
@@ -140,7 +152,7 @@ describe('Teste de rotas para grupoControlador', () => {
     describe('restauranteVisitado', () => {
         it('POST /Recebe um ID de um Grupo e adiciona na lista de visitados na semana, um Restaurante novo', async () => {
             //Arrange
-            const grupoNovo = await GrupoRepositorios.grupoNovo(novoGrupo);
+            const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
             const restauranteNovo = await novoRestaurante(restaurante);
 
             //Act
@@ -170,7 +182,7 @@ describe('Teste de rotas para grupoControlador', () => {
             //Arrange
             const restauranteNovo = await novoRestaurante(restaurante);
             novoGrupo.votacao.push({ data: new Date(), curtidas: 0, restaurante: restauranteNovo });
-            const grupoNovo = await GrupoRepositorios.grupoNovo(novoGrupo);
+            const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
             const usuario: Usuario = {
                 email: 'teste@email.com',
                 senha: 'senha123',

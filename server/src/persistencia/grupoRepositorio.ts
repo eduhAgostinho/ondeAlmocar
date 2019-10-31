@@ -12,6 +12,10 @@ export async function grupoNovo(grupo: Grupo) {
     return GrupoModel.create(grupo);
 }
 
+export async function buscarGrupos() {
+    return GrupoModel.find().populate('restaurantesEscolhidos.restaurante').populate('votacao.restaurante').exec();
+}
+
 export async function buscarGrupoID(grupoID: string) {
     return GrupoModel.findById(grupoID).populate('restaurantesEscolhidos.restaurante').populate('votacao.restaurante').exec();
 }

@@ -15,3 +15,11 @@ span {
 mat-toolbar-row {
     background-color: rgb(71, 71, 71);
 }
+
+::ng-deep .snackbarErro{
+    background-color: rgb(255,0,0);
+}
+
+::ng-deep .snackbarErro button{
+    color: white
+}

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Grupo } from '../entidades/Grupo';
-import { grupoNovo, buscarGrupoID, atualizarGrupo, novaVotacaoGrupo, curtirRestaurante } from '../persistencia/grupoRepositorio';
+import { grupoNovo, buscarGrupoID, atualizarGrupo, novaVotacaoGrupo, curtirRestaurante, buscarGrupos } from '../persistencia/grupoRepositorio';
 import { RestauranteBusca } from '../entidades/Restaurante';
 
 export async function novoGrupo(req: Request, res: Response, next: NextFunction) {
@@ -25,6 +25,16 @@ export async function buscarGrupo(req: Request, res: Response, next: NextFunctio
     } catch (err) {
         next(err);
     }
+}
+
+export async function buscarTodosGrupos(req: Request, res: Response, next: NextFunction) {
+    try {
+        const grupos = await buscarGrupos();
+        res.json(grupos).end();
+    } catch (err) {
+        next(err);
+    }
+
 }
 
 export async function novaVotacao(req: Request, res: Response, next: NextFunction) {

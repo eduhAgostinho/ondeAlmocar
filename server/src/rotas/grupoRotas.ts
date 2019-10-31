@@ -8,4 +8,5 @@ router.put('', GrupoControlador.novoGrupo);
 router.post('/votacao/:id', passport.authenticate('jwt', {session:false}), GrupoControlador.novaVotacao);
 router.post('/:idGrupo/:idRestaurante/:idUsuario', passport.authenticate('jwt', {session:false}), GrupoControlador.curtir);
 router.post('/:id', passport.authenticate('jwt', {session:false}), GrupoControlador.restauranteVisitado);
+router.get('', passport.authenticate('jwt', {session:false}),GrupoControlador.buscarTodosGrupos);
 router.get('/:id', passport.authenticate('jwt', {session:false}),GrupoControlador.buscarGrupo);
