@@ -3,6 +3,8 @@ import { Subscription } from 'rxjs';
 import { Grupo } from 'src/models/grupo';
 import { GrupoService } from 'src/services/grupo.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogFormComponent } from 'src/app/dialog-form/dialog-form.component';
 
 @Component({
   selector: 'app-lista-grupos',
@@ -15,7 +17,8 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
   displayedColumns = ['nome', 'codigo'];
   dataSource = new MatTableDataSource(this.grupos);
   constructor(
-    private grupoService: GrupoService
+    private grupoService: GrupoService,
+    private dialog: MatDialog
   ) { }
 
 
@@ -33,5 +36,11 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  entrarGrupo(grupo) {
+    const dialogRef = this.dialog.open(DialogFormComponent, { data: grupo });
+  }
+
+  submit() {}
 
 }

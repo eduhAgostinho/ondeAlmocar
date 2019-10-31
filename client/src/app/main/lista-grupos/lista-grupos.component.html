@@ -15,7 +15,7 @@
 
             <ng-container matColumnDef="codigo">
                 <td mat-cell *matCellDef="let grupo">
-                    <button mat-raised-button class="btnEntrar" color="primary">Entrar</button>
+                    <button (click)="entrarGrupo(grupo)" mat-raised-button class="btnEntrar" color="primary">Entrar</button>
                 </td>
             </ng-container>
 

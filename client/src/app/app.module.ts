@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
+import { A11yModule } from '@angular/cdk/a11y';
 
 import { AuthInterceptor } from '../services/Auth.interceptor';
 
@@ -27,6 +28,7 @@ import { ListaGruposComponent } from './main/lista-grupos/lista-grupos.component
 import { DashboardGrupoComponent } from './main/dashboard-grupo/dashboard-grupo.component';
 import { UsuarioService } from 'src/services/usuario.service';
 import { GrupoService } from 'src/services/grupo.service';
+import { DialogFormComponent } from './dialog-form/dialog-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { GrupoService } from 'src/services/grupo.service';
     MainComponent,
     ConfirmDialogComponent,
     ListaGruposComponent,
-    DashboardGrupoComponent
+    DashboardGrupoComponent,
+    DialogFormComponent
   ],
   imports: [
     BrowserModule,
@@ -51,10 +54,12 @@ import { GrupoService } from 'src/services/grupo.service';
     MatDialogModule,
     MatSnackBarModule,
     MatTableModule,
-    MatListModule
+    MatListModule,
+    A11yModule
   ],
   entryComponents: [
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    DialogFormComponent
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
