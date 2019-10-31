@@ -1,11 +1,12 @@
-<h2>{{ data.nome }}</h2>
+<h2>{{ entrarGrupo? data[1].nome : 'Novo grupo' }}</h2>
+<h3 *ngIf="erro">*Código inválido*</h3>
 <form (ngSubmit)="submit()" #entrarForm="ngForm">
     <mat-form-field>
-        <input matInput placeholder="Código" type="text" required name="codigo" id="codigo" #codigo="ngModel"
-            [(ngModel)]="codigoUsuario">
+        <input matInput placeholder="{{entrarGrupo?'Código':'Nome'}}" type="text" required name="codigo" id="codigo" #codigo="ngModel"
+            [(ngModel)]="novoGrupo.nome">
     </mat-form-field>
     <mat-dialog-actions align="end">
         <button mat-button type="button" mat-dialog-close>Cancelar</button>
-        <button mat-button type="submit" id="submit" [mat-dialog-close]="true" [disabled]="!entrarForm.form.valid">Entrar</button>
+        <button mat-button type="submit" id="submit" [disabled]="!entrarForm.form.valid">{{ entrarGrupo? 'Entrar': 'Criar' }}</button>
     </mat-dialog-actions>
 </form>

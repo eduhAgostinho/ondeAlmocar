@@ -38,7 +38,17 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
   }
 
   entrarGrupo(grupo) {
-    const dialogRef = this.dialog.open(DialogFormComponent, { data: grupo });
+    const dialogRef = this.dialog.open(DialogFormComponent, { data: [true, grupo] });
+
+    dialogRef.afterClosed().subscribe((result) => {
+    });
+  }
+
+  criarGrupo() {
+    const dialogRef = this.dialog.open(DialogFormComponent, { data: [false] });
+
+    dialogRef.afterClosed().subscribe((result) => {
+    });
   }
 
   submit() {}

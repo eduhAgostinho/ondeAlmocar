@@ -19,4 +19,10 @@ export class GrupoService {
       catchError(tratadorError([]))
     );
   }
+
+  novoGrupo(grupo: Grupo) {
+    return this.http.put(environment.urlGrupo, grupo, this.httpOptions).pipe(
+      catchError(tratadorError())
+    );
+  }
 }
