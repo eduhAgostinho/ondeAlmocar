@@ -2,9 +2,9 @@ import * as RepositorioUsuario from '../persistencia/usuarioRepositorio';
 import * as RepositorioGrupo from '../persistencia/grupoRepositorio';
 import { Usuario } from '../entidades/Usuario';
 import { UsuarioModel } from '../persistencia/usuarioModel';
-import { Grupo, GrupoBusca } from '../entidades/Grupo';
+import { Grupo } from '../entidades/Grupo';
 import { GrupoModel } from '../persistencia/grupoModel';
-import * as bcrypt from 'bcrypt';
+import { bcrypt } from '../persistencia/usuarioRepositorio';
 
 let usuario: Usuario = {
     email: 'usuario@email.com',
@@ -27,9 +27,8 @@ describe('Testes em usuarioRepositorio', () => {
             //Arrange
             let user = new UsuarioModel(usuario);
             let usuarioRepositorio = RepositorioUsuario;
-            const Bcrypt = bcrypt;
             UsuarioModel.create = jest.fn().mockReturnValue(user);
-            Bcrypt.hash = jest.fn().mockReturnValue('novaSenha');
+            bcrypt.hash = jest.fn().mockReturnValue('novaSenha');
             usuarioRepositorio.buscarUsuario = jest.fn().mockReturnValue(false);
 
             //Act
@@ -37,7 +36,7 @@ describe('Testes em usuarioRepositorio', () => {
 
             //Assert
             expect(resultado).toBeTruthy();
-            expect(Bcrypt.hash).toBeCalledTimes(1);
+            expect(bcrypt.hash).toBeCalledTimes(1);
             expect(UsuarioModel.create).toBeCalledTimes(1);
         });
 
