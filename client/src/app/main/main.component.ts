@@ -29,11 +29,8 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     const token = this.storage.get('token');
     const decoded = this.auth.decode(token);
-    this.email = decoded.user;
-    this.sub = this.api.buscarUsuario(this.email).subscribe((result) => {
-      const a = result as Usuario;
-      this.nome = a.nome;
-    });
+    this.email = decoded.user.email;
+    this.nome = decoded.user.nome;
   }
 
   logout() {

@@ -1,13 +1,15 @@
 import { Usuario } from "../entidades/Usuario";
 import { UsuarioModel } from './usuarioModel';
-import { hash } from 'bcrypt';
+import * as Bcrypt from 'bcrypt';
 import { GrupoModel } from "./grupoModel";
 import { GrupoBusca } from "../entidades/Grupo";
 import * as UsuarioRepositorio from './usuarioRepositorio';
 import * as GrupoRepositorio from './grupoRepositorio';
 
 export async function novoUsuario(usuario: Usuario) {
-    usuario.senha = await hash(usuario.senha, 10);
+    const verif = await UsuarioRepositorio.buscarUsuario(usuario.email);
+    if ( verif ) { return false; }
+    usuario.senha = await Bcrypt.hash(usuario.senha, 10);
     return UsuarioModel.create(usuario);
 }
 

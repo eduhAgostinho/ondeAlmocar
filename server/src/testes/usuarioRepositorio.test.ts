@@ -11,7 +11,7 @@ let usuario: Usuario = {
     grupo: null,
     nome: 'John Doe',
     senha: 'senha',
-    ultimoVoto: new Date(2019,1,15)
+    ultimoVoto: new Date(2019, 1, 15)
 }
 
 let grupoTeste: Grupo = {
@@ -26,16 +26,37 @@ describe('Testes em usuarioRepositorio', () => {
         it('Recebe um Usuario e retorna o objeto cadastrado', async () => {
             //Arrange
             let user = new UsuarioModel(usuario);
+            let usuarioRepositorio = RepositorioUsuario;
             const Bcrypt = bcrypt;
             UsuarioModel.create = jest.fn().mockReturnValue(user);
             Bcrypt.hash = jest.fn().mockReturnValue('novaSenha');
-            
+            usuarioRepositorio.buscarUsuario = jest.fn().mockReturnValue(false);
+
             //Act
             const resultado = await RepositorioUsuario.novoUsuario(usuario);
 
             //Assert
             expect(resultado).toBeTruthy();
+            expect(Bcrypt.hash).toBeCalledTimes(1);
             expect(UsuarioModel.create).toBeCalledTimes(1);
+        });
+
+        it('Tenta cadastrar Usuario com e-mail já cadastrado e retorna falso', async () => {
+            //Arrange
+            let user = new UsuarioModel(usuario);
+            let usuarioRepositorio = RepositorioUsuario;
+            const Bcrypt = bcrypt;
+            UsuarioModel.create = jest.fn().mockReturnValue(user);
+            Bcrypt.hash = jest.fn().mockReturnValue('novaSenha');
+            usuarioRepositorio.buscarUsuario = jest.fn().mockReturnValue(user);
+
+            //Act
+            const resultado = await RepositorioUsuario.novoUsuario(usuario);
+
+            //Assert
+            expect(resultado).toBeFalsy();
+            expect(UsuarioModel.create).toBeCalledTimes(0);
+            expect(Bcrypt.hash).toBeCalledTimes(0);
         });
     });
 
@@ -46,11 +67,11 @@ describe('Testes em usuarioRepositorio', () => {
             let grupoRepositorio = RepositorioGrupo;
             let user = new UsuarioModel(usuario);
             let group = new GrupoModel(grupoTeste);
-            
+
             usuarioRepositorio.buscarUsuario = jest.fn().mockReturnValue(user);
             grupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(group);
             user.save = jest.fn().mockReturnValue(user);
-            
+
             //Act
             const resultado = await usuarioRepositorio.atualizarUsuario('usuario@email.com', group);
 

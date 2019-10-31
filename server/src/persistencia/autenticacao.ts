@@ -15,7 +15,7 @@ pass.use('login', new LocalStrategy(async (user, passwd, done) => {
         return done(undefined, false, { message: 'Usuário ou senha inválidos' });
     }
 
-    return done(undefined, { nomeUsuario: user, senha: passwd });
+    return done(undefined, { email: user, nome: busca.nome });
 }));
 
 const JwtStrategy = passportjwt.Strategy;

@@ -25,8 +25,9 @@ const novoUsuario: Usuario = {
 }
 
 beforeAll(async () => {
-    // const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTUSUARIO}?retryWrites=true&w=majority`;
-    const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTUSUARIO}`;
+    jest.setTimeout(50000);
+    const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTUSUARIO}?retryWrites=true&w=majority`;
+    // const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTUSUARIO}`;
     cliente = await connect(url, { useCreateIndex: true, useNewUrlParser: true });
 
     const admin: Usuario = {
@@ -42,7 +43,6 @@ beforeAll(async () => {
         password: 'senhaTeste'
     });
     token = res.body.token;
-    jest.setTimeout(50000);
 });
 
 afterAll(() => {
@@ -66,6 +66,16 @@ describe('Teste de rotas para usuarioControlador', () => {
 
             //Assert
             expect(resposta.status).toBe(500);
+        });
+
+        it('Tenta cadastrar Usuario com e-mail já cadastrado e retorna status 400', async () => {
+            //Act
+            novoUsuario.email = 'emailUsado@email.com';
+            await UsuarioRepositorio.novoUsuario(novoUsuario);
+            const resposta = await request(app).put('/usuario').send(novoUsuario);
+
+            //Assert
+            expect(resposta.status).toBe(400);
         });
     });
 
@@ -104,10 +114,10 @@ describe('Teste de rotas para usuarioControlador', () => {
             novoUsuario.email = 'novoEmail@email.com';
             const usuarioNovo = await UsuarioRepositorio.novoUsuario(novoUsuario);
             const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
-            
+
             //Act
-            const resposta = await request(app).post(`/usuario/${usuarioNovo.email}`).send(grupoNovo).set('Authorization', `bearer ${token}`);
-            
+            const resposta = await request(app).post(`/usuario/${novoUsuario.email}`).send(grupoNovo).set('Authorization', `bearer ${token}`);
+
             //Assert
             expect(resposta.status).toBe(200);
             expect(JSON.stringify(resposta.body.grupo)).toEqual(JSON.stringify(grupoNovo));
@@ -116,10 +126,10 @@ describe('Teste de rotas para usuarioControlador', () => {
         it('POST /Recebe email de um usuario inexistente e retorna status 404', async () => {
             //Arrange
             const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
-            
+
             //Act
             const resposta = await request(app).post(`/usuario/email@email.com`).send(grupoNovo).set('Authorization', `bearer ${token}`);
-            
+
             //Assert
             expect(resposta.status).toBe(400);
             expect(resposta.text).toEqual('Requisição inválida');

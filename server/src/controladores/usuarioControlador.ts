@@ -1,12 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { Usuario } from '../entidades/Usuario';
 import { novoUsuario, buscarUsuario, atualizarUsuario } from '../persistencia/usuarioRepositorio';
+import jwt from 'jsonwebtoken';
 
 export async function usuarioNovo(req: Request, res: Response, next: NextFunction) {
     try {
         const usuario = req.body as Usuario;
-        await novoUsuario(usuario);
-        res.status(201).send('Cadastrado com sucesso').end();
+        const result = await novoUsuario(usuario);
+        if (result) {
+            const token = jwt.sign({user:{email: result.email, nome: result.nome}}, '9b7a699568708d417f18d41e4c6c06ba2d802a2f', { expiresIn: 86400});
+            res.status(201).json({token}).send('Cadastrado com sucesso').end();
+        } else {
+            res.status(400).send('E-mail já cadastrado').end();
+        }
     } catch (err) {
         next(err);
     }

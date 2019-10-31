@@ -3,6 +3,7 @@ import { Usuario, UsuarioLogin } from 'src/models/usuario';
 import { Subscription } from 'rxjs';
 import { AutenticacaoService } from '../../services/autenticacao.service';
 import { StorageService } from '../../services/storage.service';
+import { ApiService } from 'src/services/api.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   mensagem: string;
   sub: Subscription;
   senhaConfirmada: string;
-  constructor(private auth: AutenticacaoService) { }
+  constructor(private auth: AutenticacaoService, private api: ApiService ) { }
   usuario: UsuarioLogin = {
     username: '',
     password: ''
@@ -46,6 +47,18 @@ export class LoginComponent implements OnInit {
     if (this.novoUsuario.senha !== this.senhaConfirmada) {
       this.erroCad = true;
       this.mensagem = 'Senhas não combinam';
+    } else {
+      this.sub = this.api.novoUsuario(this.novoUsuario).subscribe((result) => {
+        this.auth.setLocalStorage(result);
+        this.erroCad = false;
+      }, (err) => {
+        this.erroCad = true;
+        if (err.status === 400) {
+          this.mensagem = err.error;
+        } else {
+          this.mensagem = err.error.message || err.message;
+        }
+      });
     }
 
   }

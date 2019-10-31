@@ -19,4 +19,10 @@ export class ApiService {
       catchError(tratadorError())
     );
   }
+
+  novoUsuario(usuario: Usuario) {
+    return this.http.put(`${environment.urlUsuario}`, usuario, this.httpOptions).pipe(
+      catchError(tratadorError())
+    );
+  }
 }

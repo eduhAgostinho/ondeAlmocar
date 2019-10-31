@@ -23,8 +23,9 @@ let restaurante: Restaurante = {
 }
 
 beforeAll(async () => {
-    // const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTGRUPO}?retryWrites=true&w=majority`;
-    const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTGRUPO}`;
+    jest.setTimeout(50000);
+    const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTGRUPO}?retryWrites=true&w=majority`;
+    // const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTGRUPO}`;
     cliente = await connect(url, { useCreateIndex: true, useNewUrlParser: true });
 
     const admin: Usuario = {
@@ -40,7 +41,6 @@ beforeAll(async () => {
         password: 'senhaTeste'
     });
     token = res.body.token;
-    jest.setTimeout(50000);
 })
 
 afterAll(() => {
