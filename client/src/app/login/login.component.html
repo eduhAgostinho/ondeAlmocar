@@ -5,9 +5,6 @@
     <main>
         <form (ngSubmit)="login()" #loginForm="ngForm">
             <h3>Login</h3>
-            <div *ngIf="erro" class="alert">
-                <span class="closebtn" (click)="erroFalso()">&times;</span> {{mensagem}}
-            </div>
             <mat-form-field>
                 <input matInput placeholder="E-mail" type="email" email required name="email" id="email"
                     #email="ngModel" [(ngModel)]="usuario.username">
@@ -17,15 +14,12 @@
                 <input type="password" matInput placeholder="Senha" required name="password" id="password"
                     [(ngModel)]="usuario.password">
             </mat-form-field>
-            <button mat-raised-button type="submit" id="entrar" [disabled]="!loginForm.form.valid && !email.valid"
+            <button mat-raised-button type="submit" class="entrar" [disabled]="!loginForm.form.valid && !email.valid"
                 tabindex="0">Entrar</button>
         </form>
         <div id="divBorda"></div>
         <form id="formCad" (ngSubmit)="cadastrar()" #cadForm="ngForm">
             <h3>Cadastro</h3>
-            <div *ngIf="erroCad" class="alert">
-                <span class="closebtn" (click)="erroCadFalso()">&times;</span> {{mensagem}}
-            </div>
             <mat-form-field>
                 <input matInput placeholder="Nome" required name="usernameCad" id="usernameCad" #usernameCad="ngModel"
                     [(ngModel)]="novoUsuario.nome">
@@ -44,7 +38,7 @@
                 <input type="password" matInput placeholder="Confirmar senha" required name="passwordCadConfirm" id="passwordCadConfirm"
                     #passwordCadConfirm="ngModel" [(ngModel)]="senhaConfirmada">
             </mat-form-field>
-            <button mat-raised-button type="submit" id="entrar" [disabled]="!cadForm.form.valid && !emailCad.valid"
+            <button mat-raised-button type="submit" class="entrar" [disabled]="!cadForm.form.valid && !emailCad.valid"
                 tabindex="0">Cadastrar</button>
         </form>
     </main>

@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AuthInterceptor } from '../services/Auth.interceptor';
 
@@ -39,7 +40,8 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     ReactiveFormsModule,
     MatInputModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   entryComponents: [
     ConfirmDialogComponent

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario, UsuarioLogin } from 'src/models/usuario';
 import { Subscription } from 'rxjs';
 import { AutenticacaoService } from '../../services/autenticacao.service';
-import { StorageService } from '../../services/storage.service';
 import { ApiService } from 'src/services/api.service';
+import { SnackBarService } from 'src/services/snack-bar.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,14 @@ import { ApiService } from 'src/services/api.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  erro: boolean;
-  erroCad: boolean;
-  mensagem: string;
   sub: Subscription;
   senhaConfirmada: string;
-  constructor(private auth: AutenticacaoService, private api: ApiService ) { }
+  constructor(
+    private auth: AutenticacaoService,
+    private api: ApiService,
+    private snackService: SnackBarService,
+    private snack: MatSnackBar
+  ) { }
   usuario: UsuarioLogin = {
     username: '',
     password: ''
@@ -26,7 +29,7 @@ export class LoginComponent implements OnInit {
     nome: '',
     email: '',
     grupo: null,
-    ultimoVoto:  null,
+    ultimoVoto: null,
     senha: ''
   };
 
@@ -36,39 +39,28 @@ export class LoginComponent implements OnInit {
   login() {
     this.sub = this.auth.login(this.usuario).subscribe((result) => {
       this.auth.setLocalStorage(result);
-      this.erro = false;
     }, (err) => {
-      this.erro = true;
-      this.mensagem = err.error.message || err.message;
+      this.snackService.abreSnackBar(err.error.message || err.message, 'OK');
     });
   }
 
   cadastrar() {
     if (this.novoUsuario.senha !== this.senhaConfirmada) {
-      this.erroCad = true;
-      this.mensagem = 'Senhas não combinam';
+      this.novoUsuario.senha = '';
+      this.senhaConfirmada = '';
+      this.snackService.abreSnackBar('Senhas não combinam', 'OK');
     } else {
       this.sub = this.api.novoUsuario(this.novoUsuario).subscribe((result) => {
         this.auth.setLocalStorage(result);
-        this.erroCad = false;
       }, (err) => {
-        this.erroCad = true;
         if (err.status === 400) {
-          this.mensagem = err.error;
+          this.snackService.abreSnackBar(err.error, 'OK');
         } else {
-          this.mensagem = err.error.message || err.message;
+          this.snackService.abreSnackBar(err.error.message || err.message, 'OK');
         }
       });
     }
 
-  }
-
-  erroFalso() {
-    this.erro = false;
-  }
-
-  erroCadFalso() {
-    this.erroCad = false;
   }
 
 }
