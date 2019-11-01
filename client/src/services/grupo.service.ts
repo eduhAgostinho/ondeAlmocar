@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { tratadorError } from './tratador-de-erros';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Grupo } from 'src/models/grupo';
+import { Grupo, GrupoBusca } from 'src/models/grupo';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +20,7 @@ export class GrupoService {
     );
   }
 
-  novoGrupo(grupo: Grupo) {
-    return this.http.put(environment.urlGrupo, grupo, this.httpOptions).pipe(
-      catchError(tratadorError())
-    );
+  novoGrupo(grupo: Grupo): Observable<GrupoBusca> {
+    return this.http.put<GrupoBusca>(environment.urlGrupo, grupo, this.httpOptions);
   }
 }

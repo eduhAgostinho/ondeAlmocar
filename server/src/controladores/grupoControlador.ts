@@ -6,8 +6,8 @@ import { RestauranteBusca } from '../entidades/Restaurante';
 export async function novoGrupo(req: Request, res: Response, next: NextFunction) {
     try {
         const grupo = req.body as Grupo;
-        await grupoNovo(grupo);
-        res.status(201).send('Cadastrado com sucesso').end();
+        const novoGrupo = await grupoNovo(grupo);
+        res.status(201).json(novoGrupo).end();
     } catch (err) {
         next(err);
     }    

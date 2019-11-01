@@ -5,6 +5,7 @@ import { tratadorError } from './tratador-de-erros';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { Usuario } from 'src/models/usuario';
+import { Grupo, GrupoBusca } from 'src/models/grupo';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,12 @@ export class UsuarioService {
 
   novoUsuario(usuario: Usuario) {
     return this.http.put(`${environment.urlUsuario}`, usuario, this.httpOptions).pipe(
+      catchError(tratadorError())
+    );
+  }
+
+  entrarSairGrupo(email: string, grupo: Grupo) {
+    return this.http.post(`${environment.urlUsuario}/${email}`, grupo, this.httpOptions).pipe(
       catchError(tratadorError())
     );
   }

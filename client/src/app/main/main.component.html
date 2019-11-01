@@ -5,4 +5,4 @@
     </mat-toolbar-row>
 </mat-toolbar>
 <app-lista-grupos *ngIf="!grupo"></app-lista-grupos>
-<app-dashboard-grupo *ngIf="grupo"></app-dashboard-grupo>
+<app-dashboard-grupo [usuarioLogado]="usuarioLogado" *ngIf="grupo"></app-dashboard-grupo>

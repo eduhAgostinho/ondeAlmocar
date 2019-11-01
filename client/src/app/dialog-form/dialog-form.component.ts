@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Grupo } from 'src/models/grupo';
+import { GrupoService } from 'src/services/grupo.service';
+import { Subscription } from 'rxjs';
+import { UsuarioService } from 'src/services/usuario.service';
+import { StorageService } from 'src/services/storage.service';
+import { AutenticacaoService } from 'src/services/autenticacao.service';
 
 @Component({
   selector: 'app-dialog-form',
@@ -15,11 +20,16 @@ export class DialogFormComponent implements OnInit {
     votacao: [],
     nome: ''
   };
-
   erro: boolean;
+  sub: Subscription;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<DialogFormComponent>
+    public dialogRef: MatDialogRef<DialogFormComponent>,
+    private grupoService: GrupoService,
+    private usuarioService: UsuarioService,
+    private storage: StorageService,
+    private auth: AutenticacaoService,
+
   ) { }
 
   ngOnInit() {
@@ -34,7 +44,13 @@ export class DialogFormComponent implements OnInit {
         this.erro = true;
       }
     } else {
-      this.dialogRef.close(this.novoGrupo);
+      this.sub = this.grupoService.novoGrupo(this.novoGrupo).subscribe((result) => {
+        const token = this.storage.get('token');
+        const decoded = this.auth.decode(token);
+        this.usuarioService.entrarSairGrupo(decoded.user.email, result).subscribe(() => {
+          this.dialogRef.close();
+        });
+      });
     }
   }
 }

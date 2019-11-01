@@ -23,10 +23,15 @@ export async function buscarUsuarioID(id: string) {
     return UsuarioModel.findById(id).exec();
 }
 
-export async function atualizarUsuario(email: string, grupo: GrupoBusca) {
+export async function atualizarUsuario(email: string, grupo: GrupoBusca | null) {
     const usuario = await UsuarioRepositorio.buscarUsuario(email);
-    const grupoResult = await GrupoRepositorio.buscarGrupoID(grupo._id) as GrupoBusca;
-    if (!usuario || !grupoResult) { return false; }
-    usuario.grupo = grupoResult;
+    if(!usuario) { return false }
+    if (grupo) {
+        const grupoResult = await GrupoRepositorio.buscarGrupoID(grupo._id) as GrupoBusca;
+        if (grupoResult) { return false; }
+        usuario.grupo = grupoResult;
+    } else {
+        usuario.grupo = null;
+    }
     return usuario.save();
 }

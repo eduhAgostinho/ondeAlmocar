@@ -48,6 +48,7 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogFormComponent, { data: [false] });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.ngOnInit();
     });
   }
 
