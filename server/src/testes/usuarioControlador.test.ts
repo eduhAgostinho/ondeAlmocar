@@ -116,7 +116,7 @@ describe('Teste de rotas para usuarioControlador', () => {
             const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
 
             //Act
-            const resposta = await request(app).post(`/usuario/${novoUsuario.email}`).send(grupoNovo).set('Authorization', `bearer ${token}`);
+            const resposta = await request(app).post(`/usuario/${novoUsuario.email}`).send({grupo: grupoNovo}).set('Authorization', `bearer ${token}`);
 
             //Assert
             expect(resposta.status).toBe(200);

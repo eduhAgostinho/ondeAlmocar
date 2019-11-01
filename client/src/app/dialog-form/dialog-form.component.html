@@ -1,4 +1,5 @@
 <h2>{{ entrarGrupo? data[1].nome : 'Novo grupo' }}</h2>
+<h1>{{ entrarGrupo? data[1].codigo : '' }}</h1>
 <h3 *ngIf="erro">*Código inválido*</h3>
 <form (ngSubmit)="submit()" #entrarForm="ngForm">
     <mat-form-field>

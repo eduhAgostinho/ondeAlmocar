@@ -6,7 +6,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { AutenticacaoService } from '../../services/autenticacao.service';
 import { Subscription } from 'rxjs';
 import { UsuarioService } from 'src/services/usuario.service';
-import { Usuario } from 'src/models/usuario';
+import { Usuario, UsuarioBusca } from 'src/models/usuario';
 import { SnackBarService } from 'src/services/snack-bar.service';
 import { Grupo } from 'src/models/grupo';
 
@@ -29,7 +29,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private auth: AutenticacaoService,
     private api: UsuarioService,
     private snackService: SnackBarService
-    ) { }
+  ) { }
 
   ngOnInit() {
     const token = this.storage.get('token');
@@ -52,6 +52,11 @@ export class MainComponent implements OnInit, OnDestroy {
         this.router.navigate(['login']);
       }
     });
+  }
+
+  receberUsuarioAtualizado(usuario: UsuarioBusca) {
+    this.usuarioLogado = usuario;
+    this.grupo = this.usuarioLogado.grupo;
   }
 
   ngOnDestroy() {

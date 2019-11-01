@@ -4,7 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { tratadorError } from './tratador-de-erros';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { Usuario } from 'src/models/usuario';
+import { Usuario, UsuarioBusca } from 'src/models/usuario';
 import { Grupo, GrupoBusca } from 'src/models/grupo';
 
 @Injectable({
@@ -27,9 +27,9 @@ export class UsuarioService {
     );
   }
 
-  entrarSairGrupo(email: string, grupo: Grupo) {
-    return this.http.post(`${environment.urlUsuario}/${email}`, grupo, this.httpOptions).pipe(
-      catchError(tratadorError())
+  entrarSairGrupo(email: string, grupo: Grupo | null): Observable<UsuarioBusca> {
+    return this.http.post<UsuarioBusca>(`${environment.urlUsuario}/${email}`, { grupo }, this.httpOptions).pipe(
+      catchError(tratadorError(null))
     );
   }
 

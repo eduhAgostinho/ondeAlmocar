@@ -20,6 +20,7 @@ export class DialogFormComponent implements OnInit {
     votacao: [],
     nome: ''
   };
+  decoded;
   erro: boolean;
   sub: Subscription;
   constructor(
@@ -34,21 +35,23 @@ export class DialogFormComponent implements OnInit {
 
   ngOnInit() {
     this.data[0] ? this.entrarGrupo = true : this.entrarGrupo = false;
+    const token = this.storage.get('token');
+    this.decoded = this.auth.decode(token);
   }
 
   submit() {
     if (this.entrarGrupo) {
-      if (this.codigoUsuario === this.data[1].codigo) {
-        this.dialogRef.close(true);
+      if (this.novoGrupo.nome === this.data[1].codigo) {
+        this.usuarioService.entrarSairGrupo(this.decoded.user.email, this.data[1]).subscribe((result) => {
+          this.dialogRef.close(result);
+        });
       } else {
         this.erro = true;
       }
     } else {
       this.sub = this.grupoService.novoGrupo(this.novoGrupo).subscribe((result) => {
-        const token = this.storage.get('token');
-        const decoded = this.auth.decode(token);
-        this.usuarioService.entrarSairGrupo(decoded.user.email, result).subscribe(() => {
-          this.dialogRef.close();
+        this.usuarioService.entrarSairGrupo(this.decoded.user.email, result).subscribe((usuarioAtualizado) => {
+          this.dialogRef.close(usuarioAtualizado);
         });
       });
     }

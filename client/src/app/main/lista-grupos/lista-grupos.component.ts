@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Grupo } from 'src/models/grupo';
 import { GrupoService } from 'src/services/grupo.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent } from 'src/app/dialog-form/dialog-form.component';
+import { Usuario } from 'src/models/usuario';
 
 @Component({
   selector: 'app-lista-grupos',
@@ -16,6 +17,8 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
   grupos: Grupo[];
   displayedColumns = ['nome', 'codigo'];
   dataSource = new MatTableDataSource(this.grupos);
+  @Output() atualizarUser = new EventEmitter();
+
   constructor(
     private grupoService: GrupoService,
     private dialog: MatDialog
@@ -41,6 +44,9 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogFormComponent, { data: [true, grupo] });
 
     dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.atualizar(result);
+      }
     });
   }
 
@@ -48,10 +54,16 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogFormComponent, { data: [false] });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.ngOnInit();
+      if (result) {
+        this.atualizar(result);
+      }
     });
   }
 
-  submit() {}
+  atualizar(usuario: Usuario) {
+    this.atualizarUser.emit(usuario);
+  }
+
+  submit() { }
 
 }

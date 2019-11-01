@@ -13,3 +13,8 @@ export interface Usuario {
     grupo ?: Grupo;
     ultimoVoto ?: Date;
 }
+
+export interface UsuarioBusca extends Usuario {
+    _id: string;
+}
+
