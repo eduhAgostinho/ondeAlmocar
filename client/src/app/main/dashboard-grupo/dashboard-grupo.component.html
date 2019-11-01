@@ -9,6 +9,9 @@
         </button>
     </header>
     <main>
+        <!-- <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar grupo">
+        </mat-form-field> -->
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="#">
@@ -29,8 +32,7 @@
             <ng-container matColumnDef="votar">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let votacao">
-                    <button (click)="votar(votacao)" mat-raised-button class="btnEntrar"
-                        color="primary">Votar</button>
+                    <button (click)="votar(votacao)" mat-raised-button class="btnEntrar" color="primary">Votar</button>
                 </td>
             </ng-container>
 
