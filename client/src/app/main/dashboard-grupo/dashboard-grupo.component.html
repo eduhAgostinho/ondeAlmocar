@@ -1,1 +1,41 @@
-<button style="margin-top: 200px; margin-left: 200px; background-color: red !important; color: white" (click)="sairGrupo()" mat-button>Sair</button>
+<section>
+    <header>
+        <article>
+            <h2>{{ usuarioLogado.grupo.nome }}</h2>
+            <h3>Código: {{ usuarioLogado.grupo.codigo }}</h3>
+        </article>
+        <button id="btnSairGrupo" (click)="sairGrupo()" mat-button>
+            <i class="material-icons">exit_to_app</i>Sair do grupo
+        </button>
+    </header>
+    <main>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let votacao; index as i"> {{ i+1 }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nome">
+                <th mat-header-cell *matHeaderCellDef> Restaurante </th>
+                <td mat-cell *matCellDef="let votacao"> {{ votacao.restaurante.nome }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="votos">
+                <th mat-header-cell *matHeaderCellDef> Votos </th>
+                <td mat-cell *matCellDef="let votacao"> {{ votacao.curtidas }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="votar">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let votacao">
+                    <button (click)="votar(votacao)" mat-raised-button class="btnEntrar"
+                        color="primary">Votar</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </main>
+</section>

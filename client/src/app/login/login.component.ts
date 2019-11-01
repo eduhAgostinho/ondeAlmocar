@@ -13,6 +13,7 @@ import { SnackBarService } from 'src/services/snack-bar.service';
 export class LoginComponent implements OnInit, OnDestroy {
   sub: Subscription;
   senhaConfirmada: string;
+  hoje = new Date();
   constructor(
     private auth: AutenticacaoService,
     private api: UsuarioService,
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     nome: '',
     email: '',
     grupo: null,
-    ultimoVoto: null,
+    ultimoVoto: new Date(this.hoje.getFullYear(), this.hoje.getMonth(), this.hoje.getDate() - 1),
     senha: ''
   };
 

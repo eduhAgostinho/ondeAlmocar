@@ -21,3 +21,18 @@ mat-toolbar {
 .btnEntrar {
     background-color: rgb(71, 71, 71) !important;
 }
+
+.btnEntrar:hover {
+    color: rgb(71, 71, 71) !important;
+    background-color: white !important;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+i {
+    font-size: 17px !important;
+}
