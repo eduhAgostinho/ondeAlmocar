@@ -28,7 +28,7 @@ export async function atualizarUsuario(email: string, grupo: GrupoBusca | null) 
     if(!usuario) { return false }
     if (grupo) {
         const grupoResult = await GrupoRepositorio.buscarGrupoID(grupo._id) as GrupoBusca;
-        if (grupoResult) { return false; }
+        if (!grupoResult) { return false; }
         usuario.grupo = grupoResult;
     } else {
         usuario.grupo = null;
