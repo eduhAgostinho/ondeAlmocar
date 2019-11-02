@@ -53,9 +53,9 @@ export async function novaVotacao(req: Request, res: Response, next: NextFunctio
 
 export async function restauranteVisitado(req: Request, res: Response, next: NextFunction) {
     try {
-        const restaurante = req.body as RestauranteBusca;
-        const { id } = req.params;
-        const result = await atualizarGrupo(id, restaurante);
+        const { idGrupo } = req.params;
+        const { idRestaurante } = req.params;
+        const result = await atualizarGrupo(idGrupo, idRestaurante);
         if ( result ) {
             res.json(result).send('Atualizado com sucesso').end();
         } else {

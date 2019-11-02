@@ -50,4 +50,18 @@ export class GrupoService {
       catchError(tratadorError(null))
     );
   }
+
+  votacaoNova(idGrupo: string): Observable<Grupo> {
+    return this.http.post<Grupo>(`${environment.urlGrupo}/votacao/${idGrupo}`, null).pipe(
+      map( g => this.tratarRestaurantesVotacao(g) ),
+      catchError(tratadorError(null))
+    );
+  }
+
+  encerrarVotacao(iDGrupo: string, IDRestaurante: string) {
+    return this.http.post<Grupo>(`${environment.urlGrupo}/${iDGrupo}/${IDRestaurante}`, null).pipe(
+      map( g => this.tratarRestaurantesVotacao(g) ),
+      catchError(tratadorError(null))
+    );
+  }
 }

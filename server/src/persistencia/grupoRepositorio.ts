@@ -27,9 +27,9 @@ export async function novaVotacaoGrupo(grupoID: string) {
     return grupo.save();
 }
 
-export async function atualizarGrupo(grupoID: string, restaurante: any) {
+export async function atualizarGrupo(grupoID: string, restauranteID: string) {
     const grupo = await GrupoRepositorio.buscarGrupoID(grupoID);
-    const restauranteQuery = await RestauranteRepositorio.buscarRestaurantePorId(restaurante._id);
+    const restauranteQuery = await RestauranteRepositorio.buscarRestaurantePorId(restauranteID);
     if (!grupo || !restauranteQuery) { return false; }
     grupo.restaurantesEscolhidos.push({ data: new Date(), restaurante: restauranteQuery });
     return grupo.save();

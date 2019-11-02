@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { Usuario } from 'src/models/usuario';
 import { GrupoService } from 'src/services/grupo.service';
 import { SnackBarService } from 'src/services/snack-bar.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { RestauranteVotacao } from 'src/models/restaurante';
 
 @Component({
   selector: 'app-dashboard-grupo',
@@ -13,7 +15,9 @@ import { SnackBarService } from 'src/services/snack-bar.service';
 export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
-  dataSource;
+  // dataSource = new MatTableDataSource();
+  dataSource: MatTableDataSource<RestauranteVotacao>;
+  votacao: RestauranteVotacao[];
   displayedColumns = ['#', 'nome', 'votos', 'votar'];
   @Input() usuarioLogado: Usuario;
   @Output() atualizarUser = new EventEmitter();
@@ -26,7 +30,7 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
-      this.dataSource = result.votacao;
+      this.atualizarTabela(result.votacao);
     });
   }
 
@@ -45,11 +49,40 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
   votar(votacao) {
     this.sub = this.grupoService.votarRestaurante(this.usuarioLogado.grupo._id, votacao.restaurante._id, this.usuarioLogado._id)
     .subscribe((result) => {
-      this.dataSource = result.votacao;
+      this.atualizarTabela(result.votacao);
     }, err => {
       if (err.status === 400) {
         this.snack.abreSnackBar('Você já votou hoje', 'OK');
       }
+    });
+  }
+
+  novaVotacao() {
+    this.sub = this.grupoService.votacaoNova(this.usuarioLogado.grupo._id).subscribe((result) => {
+      this.atualizarTabela(result.votacao);
+    });
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filterPredicate = (data: RestauranteVotacao, filter: string) => {
+      const accumalator = (currentTerm, key) => {
+        return key === 'restaurante' ? currentTerm + data.restaurante.nome : currentTerm + data[key];
+      };
+      const dataStr = Object.keys(data).reduce(accumalator, '').toLowerCase();
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  atualizarTabela(restaurantes: RestauranteVotacao[]) {
+    this.votacao = restaurantes;
+    this.dataSource = new MatTableDataSource(this.votacao);
+  }
+
+  encerraVotacao() {
+    this.grupoService.encerrarVotacao(this.usuarioLogado.grupo._id, this.votacao[0].restaurante._id).subscribe(() => {
+      alert('Encerrada');
     });
   }
 
