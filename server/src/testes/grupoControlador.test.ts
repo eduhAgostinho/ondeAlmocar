@@ -15,7 +15,7 @@ let res: any
 let novoGrupo: Grupo = {
     nome: 'Restaurante Teste',
     restaurantesEscolhidos: [],
-    votacao: []
+    votacao: { status: false, restaurantes: [] }
 }
 let restaurante: Restaurante = {
     nome: 'Restaurante Teste',
@@ -24,8 +24,8 @@ let restaurante: Restaurante = {
 
 beforeAll(async () => {
     jest.setTimeout(50000);
-    // const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTGRUPO}?retryWrites=true&w=majority`;
-    const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTGRUPO}`;
+    const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTGRUPO}?retryWrites=true&w=majority`;
+    // const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTGRUPO}`;
     cliente = await connect(url, { useCreateIndex: true, useNewUrlParser: true });
 
     const admin: Usuario = {
@@ -124,7 +124,7 @@ describe('Teste de rotas para grupoControlador', () => {
 
             //Assert
             expect(resposta.status).toBe(200);
-            expect(resposta.body.votacao.length).toEqual(1);
+            expect(resposta.body.votacao.restaurantes.length).toEqual(1);
         });
 
         it('POST /Recebe um ID de um Grupo inexistente e retorna status 400', async () => {
@@ -152,15 +152,17 @@ describe('Teste de rotas para grupoControlador', () => {
     describe('restauranteVisitado', () => {
         it('POST /Recebe um ID de um Grupo e adiciona na lista de visitados na semana, um Restaurante novo', async () => {
             //Arrange
+            novoGrupo.votacao.status = true;
             const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
             const restauranteNovo = await novoRestaurante(restaurante);
 
             //Act
-            const resposta = await request(app).post(`/grupo/${grupoNovo._id}`).send(restauranteNovo).set('Authorization', `bearer ${token}`);
+            const resposta = await request(app).post(`/grupo/${grupoNovo._id}/${restauranteNovo._id}`).set('Authorization', `bearer ${token}`);
 
             //Assert
             expect(resposta.status).toBe(200);
             expect(JSON.stringify(resposta.body.restaurantesEscolhidos[0].restaurante)).toEqual(JSON.stringify(restauranteNovo as RestauranteBusca));
+            expect(resposta.body.votacao.status).toBeFalsy();
         });
 
         it('POST /Recebe um ID de um Grupo inexistente e retorna status 400', async () => {
@@ -169,7 +171,7 @@ describe('Teste de rotas para grupoControlador', () => {
             const restauranteNovo = await novoRestaurante(restaurante);
 
             //Act
-            const resposta = await request(app).post(`/grupo/${id}`).send(restauranteNovo).set('Authorization', `bearer ${token}`);
+            const resposta = await request(app).post(`/grupo/${id}/${restauranteNovo._id}`).set('Authorization', `bearer ${token}`);
 
             //Assert
             expect(resposta.status).toBe(400);
@@ -181,7 +183,8 @@ describe('Teste de rotas para grupoControlador', () => {
         it('POST /Recebe ID de um Grupo, Usuario e Restaurante e acrescenta mais uma curtida retornando status 200', async () => {
             //Arrange
             const restauranteNovo = await novoRestaurante(restaurante);
-            novoGrupo.votacao.push({ data: new Date(), curtidas: 0, restaurante: restauranteNovo });
+            novoGrupo.votacao.restaurantes.push({ data: new Date(), curtidas: 0, restaurante: restauranteNovo });
+            novoGrupo.votacao.status = true;
             const grupoNovo = await GrupoRepositorio.grupoNovo(novoGrupo);
             const usuario: Usuario = {
                 email: 'teste@email.com',
@@ -199,7 +202,7 @@ describe('Teste de rotas para grupoControlador', () => {
 
             //Assert
             expect(resposta.status).toBe(200);
-            expect(resposta.body.votacao[0].curtidas).toBe(1);
+            expect(resposta.body.votacao.restaurantes[0].curtidas).toBe(1);
             expect(usuarioNovo.ultimoVoto.getDate()).toBe(hoje.getDate());
             expect(usuarioNovo.ultimoVoto.getMonth()).toBe(hoje.getMonth());
             expect(usuarioNovo.ultimoVoto.getFullYear()).toBe(hoje.getFullYear());

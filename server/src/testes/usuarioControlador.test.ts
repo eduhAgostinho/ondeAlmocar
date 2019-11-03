@@ -13,7 +13,7 @@ let res: any
 let novoGrupo: Grupo = {
     nome: 'Restaurante Teste',
     restaurantesEscolhidos: [],
-    votacao: []
+    votacao: { status: false, restaurantes: [] }
 }
 
 const novoUsuario: Usuario = {
@@ -26,8 +26,8 @@ const novoUsuario: Usuario = {
 
 beforeAll(async () => {
     jest.setTimeout(50000);
-    // const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTUSUARIO}?retryWrites=true&w=majority`;
-    const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTUSUARIO}`;
+    const url = `mongodb+srv://${process.env.MONGO_HOST}:${process.env.MONGO_PASSWORD}@cluster0-wqeu2.mongodb.net/${process.env.MONGO_DATABASETESTUSUARIO}?retryWrites=true&w=majority`;
+    // const url = `mongodb://${process.env.MONGO_LOCAL}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASETESTUSUARIO}`;
     cliente = await connect(url, { useCreateIndex: true, useNewUrlParser: true });
 
     const admin: Usuario = {
@@ -120,7 +120,7 @@ describe('Teste de rotas para usuarioControlador', () => {
 
             //Assert
             expect(resposta.status).toBe(200);
-            expect(JSON.stringify(resposta.body.grupo)).toEqual(JSON.stringify(grupoNovo));
+            expect(JSON.stringify(resposta.body.grupo._id)).toEqual(JSON.stringify(grupoNovo._id));
         });
 
         it('POST /Recebe email de um usuario inexistente e retorna status 404', async () => {

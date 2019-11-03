@@ -18,7 +18,7 @@ let grupoTeste: Grupo = {
     codigo: 'ABf5aA7',
     nome: 'Restaurante Teste',
     restaurantesEscolhidos: [],
-    votacao: []
+    votacao: { status: false, restaurantes: [] }
 }
 
 describe('Testes em usuarioRepositorio', () => {

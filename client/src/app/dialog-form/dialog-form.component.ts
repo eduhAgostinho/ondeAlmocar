@@ -17,7 +17,7 @@ export class DialogFormComponent implements OnInit {
   entrarGrupo: boolean;
   novoGrupo: Grupo = {
     restaurantesEscolhidos: [],
-    votacao: [],
+    votacao: { status: false, restaurantes: [] },
     nome: ''
   };
   decoded;

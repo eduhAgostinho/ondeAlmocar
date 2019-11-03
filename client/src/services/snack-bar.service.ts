@@ -15,4 +15,11 @@ export class SnackBarService {
       panelClass: ['snackbarErro']
     });
   }
+
+  public abreSnackBarVerde(mensagem: string, acao: string) {
+    this.snackBar.open(mensagem, acao, {
+      duration: 2000,
+      panelClass: ['snackbarVerde']
+    });
+  }
 }

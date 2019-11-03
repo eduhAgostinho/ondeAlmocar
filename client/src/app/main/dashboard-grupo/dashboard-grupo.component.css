@@ -48,3 +48,11 @@ table {
 .tdVerde {
   background-color: rgb(0, 255, 0, 0.5) !important;
 }
+
+.btnPadrao {
+  margin-left: 15px;
+}
+
+mat-form-field {
+  margin-right: 15px;
+}

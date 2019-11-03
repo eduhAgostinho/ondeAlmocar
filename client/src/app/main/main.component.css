@@ -19,7 +19,14 @@ mat-toolbar-row {
 ::ng-deep .snackbarErro{
     background-color: rgb(255,0,0);
 }
+::ng-deep .snackbarVerde{
+    background-color: rgb(0, 255, 0);
+}
 
 ::ng-deep .snackbarErro button{
+    color: white
+}
+
+::ng-deep .snackbarVerde button{
     color: white
 }

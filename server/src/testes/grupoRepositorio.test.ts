@@ -14,7 +14,7 @@ let grupoTeste: Grupo = {
     codigo: 'ABf5aA7',
     nome: 'Restaurante Teste',
     restaurantesEscolhidos: [],
-    votacao: []
+    votacao: { status: false, restaurantes: [] }
 }
 
 let restaurantes: RestauranteBusca[] = [
@@ -41,7 +41,7 @@ describe('Testes em GrupoRepositorio', () => {
             codigo: 'ABf5aA7',
             nome: 'Restaurante Teste',
             restaurantesEscolhidos: [],
-            votacao: []
+            votacao: { status: false, restaurantes: [] }
         }
     });
     describe('grupoNovo -', () => {
@@ -104,6 +104,7 @@ describe('Testes em GrupoRepositorio', () => {
                 //Arrange                
                 let GrupoRepositorio = RepositorioGrupo;
                 let Repositoriorestaurante = RestauranteRepositorio;
+                grupoTeste.votacao.status = true;
                 const grupo = new GrupoModule.GrupoModel(grupoTeste);
                 const rest = new RestauranteModel(restaurantes[0]);
                 GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(grupo);
@@ -111,7 +112,7 @@ describe('Testes em GrupoRepositorio', () => {
                 grupo.save = jest.fn().mockReturnValue(grupo);
 
                 //Act 
-                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest);
+                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest._id);
 
                 //Assert
                 expect(resultado).toEqual(grupo);
@@ -130,7 +131,7 @@ describe('Testes em GrupoRepositorio', () => {
                 grupo.save = jest.fn().mockReturnValue(grupo);
                
                 //Act 
-                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest);
+                const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest._id);
 
                 //Assert
                 expect(resultado).toEqual(false);
@@ -145,14 +146,15 @@ describe('Testes em GrupoRepositorio', () => {
             const dataAtual = new Date();
             
             beforeEach(() => {
-                grupoTeste.votacao = [];
+                grupoTeste.votacao = { status: false, restaurantes: [] };
             });
             
             it('Recebe um ID de um Grupo, de um Restaurante e de um Usuario e acrescenta mais uma curtida no restaurante informado', async () => {
                 //Arrange
                 const user = new UsuarioModule.UsuarioModel(usuario);
                 const rest = new RestauranteModel(restaurantes[0]);
-                grupoTeste.votacao.push({ curtidas: 0, data: dataAtual, restaurante: rest });
+                grupoTeste.votacao.status = true;
+                grupoTeste.votacao.restaurantes.push({ curtidas: 0, data: dataAtual, restaurante: rest });
                 const grupo = new GrupoModule.GrupoModel(grupoTeste);
                 GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(grupo);
                 UsuarioRepositorio.buscarUsuarioID = jest.fn().mockReturnValue(user);
@@ -164,7 +166,7 @@ describe('Testes em GrupoRepositorio', () => {
 
                 //Assert
                 expect(resultado).toBeTruthy();
-                expect(grupo.votacao[0].curtidas).toEqual(1);
+                expect(grupo.votacao.restaurantes[0].curtidas).toEqual(1);
                 expect(user.save).toBeCalledTimes(1);
                 expect(grupo.save).toBeCalledTimes(1);
             });
@@ -173,7 +175,8 @@ describe('Testes em GrupoRepositorio', () => {
                 //Arrange
                 const user = new UsuarioModule.UsuarioModel(usuario);
                 const rest = new RestauranteModel(restaurantes[0]);
-                grupoTeste.votacao.push({ curtidas: 0, data: dataAtual, restaurante: rest });
+                grupoTeste.votacao.status = true;
+                grupoTeste.votacao.restaurantes.push({ curtidas: 0, data: dataAtual, restaurante: rest });
                 const grupo = new GrupoModule.GrupoModel(grupoTeste);
                 GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(false);
                 UsuarioRepositorio.buscarUsuarioID = jest.fn().mockReturnValue(user);
@@ -187,7 +190,7 @@ describe('Testes em GrupoRepositorio', () => {
                 expect(resultado).toBeFalsy();
                 expect(user.save).toBeCalledTimes(0);
                 expect(grupo.save).toBeCalledTimes(0);
-                expect(grupo.votacao[0].curtidas).toEqual(0);
+                expect(grupo.votacao.restaurantes[0].curtidas).toEqual(0);
             });
         });
     });

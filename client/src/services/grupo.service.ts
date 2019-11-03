@@ -32,7 +32,7 @@ export class GrupoService {
   }
 
   tratarRestaurantesVotacao(grupo: Grupo) {
-    grupo.votacao.sort((data1, data2) => {
+    grupo.votacao.restaurantes.sort((data1, data2) => {
       if (data1.curtidas < data2.curtidas) {
         return 1;
       }
@@ -58,7 +58,7 @@ export class GrupoService {
     );
   }
 
-  encerrarVotacao(iDGrupo: string, IDRestaurante: string) {
+  encerrarVotacao(iDGrupo: string, IDRestaurante: string): Observable<Grupo> {
     return this.http.post<Grupo>(`${environment.urlGrupo}/${iDGrupo}/${IDRestaurante}`, null).pipe(
       map( g => this.tratarRestaurantesVotacao(g) ),
       catchError(tratadorError(null))

@@ -6,6 +6,7 @@ import { GrupoService } from 'src/services/grupo.service';
 import { SnackBarService } from 'src/services/snack-bar.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { RestauranteVotacao } from 'src/models/restaurante';
+import { Votacao } from 'src/models/votacao';
 
 @Component({
   selector: 'app-dashboard-grupo',
@@ -15,9 +16,8 @@ import { RestauranteVotacao } from 'src/models/restaurante';
 export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
   sub: Subscription;
-  // dataSource = new MatTableDataSource();
   dataSource: MatTableDataSource<RestauranteVotacao>;
-  votacao: RestauranteVotacao[];
+  votacao: Votacao = { status: false, restaurantes: [] };
   displayedColumns = ['#', 'nome', 'votos', 'votar'];
   @Input() usuarioLogado: Usuario;
   @Output() atualizarUser = new EventEmitter();
@@ -48,13 +48,25 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
   votar(votacao) {
     this.sub = this.grupoService.votarRestaurante(this.usuarioLogado.grupo._id, votacao.restaurante._id, this.usuarioLogado._id)
-    .subscribe((result) => {
-      this.atualizarTabela(result.votacao);
-    }, err => {
-      if (err.status === 400) {
-        this.snack.abreSnackBar('Você já votou hoje', 'OK');
-      }
-    });
+      .subscribe((result) => {
+        this.atualizarTabela(result.votacao);
+      }, err => {
+        if (err.status === 400) {
+          const hoje = new Date();
+          const usuarioVoto = new Date(this.usuarioLogado.ultimoVoto);
+          if (!this.usuarioLogado.grupo.votacao.status) {
+            this.snack.abreSnackBar('A votação não está aberta', 'OK');
+          } else if (
+            usuarioVoto.getFullYear() === hoje.getFullYear() &&
+            usuarioVoto.getMonth() === hoje.getMonth() &&
+            usuarioVoto.getDate() === hoje.getDate()
+          ) {
+            this.snack.abreSnackBar('Você já votou hoje', 'OK');
+          } else {
+            this.snack.abreSnackBar(err.error || err.message, 'OK');
+          }
+        }
+      });
   }
 
   novaVotacao() {
@@ -75,14 +87,20 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  atualizarTabela(restaurantes: RestauranteVotacao[]) {
-    this.votacao = restaurantes;
-    this.dataSource = new MatTableDataSource(this.votacao);
+  atualizarTabela(votacaoAtualizada: Votacao) {
+    this.votacao = votacaoAtualizada;
+    this.dataSource = new MatTableDataSource(this.votacao.restaurantes);
   }
 
   encerraVotacao() {
-    this.grupoService.encerrarVotacao(this.usuarioLogado.grupo._id, this.votacao[0].restaurante._id).subscribe(() => {
-      alert('Encerrada');
+    this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
+      this.atualizarTabela(result.votacao);
+      this.grupoService.encerrarVotacao(this.usuarioLogado.grupo._id, this.votacao.restaurantes[0].restaurante._id).subscribe(
+        (resultado) => {
+          this.snack.abreSnackBarVerde('Votação encerrada', 'OK');
+          this.atualizarTabela(resultado.votacao);
+        }
+      );
     });
   }
 

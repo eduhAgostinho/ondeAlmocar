@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Grupo } from '../entidades/Grupo';
 import { grupoNovo, buscarGrupoID, atualizarGrupo, novaVotacaoGrupo, curtirRestaurante, buscarGrupos } from '../persistencia/grupoRepositorio';
-import { RestauranteBusca } from '../entidades/Restaurante';
 
 export async function novoGrupo(req: Request, res: Response, next: NextFunction) {
     try {
