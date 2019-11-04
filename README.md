@@ -19,3 +19,7 @@ Para testes:
 Rodar Angular: 
 em "./client"
 -> ng serve
+
+Código de acesso de Grupos:
+TimeA: Kz1UCG5
+TimeB: 3m0AEY2
