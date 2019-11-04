@@ -101,7 +101,7 @@ describe('Teste de rotas para grupoControlador', () => {
         });
     });
 
-    
+
     describe('buscarTodosGrupos', () => {
         it('GET /Recebe um array de Grupos e retorna status 200', async () => {
             //Act
@@ -223,13 +223,15 @@ describe('Teste de rotas para grupoControlador', () => {
         it('POST /Recebe ID de um Grupo, Usuario e Restaurante inválidos e retorna status 500', async () => {
             //Arrange
             const id = 'IDInválido';
-            
+
             //Act
             const resposta = await request(app).post(`/grupo/${id}/${id}/${id}`).set('Authorization', `bearer ${token}`);
 
             //Assert
             expect(resposta.status).toBe(500);
         });
+
+      
     });
 
 });

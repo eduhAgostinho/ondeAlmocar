@@ -27,9 +27,10 @@ table {
 }
 
 .containerTabela {
-  max-height: 400px;
+  max-height: 350px;
   overflow: auto;
   width: 47%;
+  margin-bottom: 15px;
 }
 
 .btnEntrar {

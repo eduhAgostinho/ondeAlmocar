@@ -31,7 +31,7 @@ let usuario: Usuario = {
     grupo: null,
     nome: 'John Doe',
     senha: 'senha',
-    ultimoVoto: new Date(2019,1,15)
+    ultimoVoto: new Date(2019, 1, 15)
 }
 
 describe('Testes em GrupoRepositorio', () => {
@@ -129,7 +129,7 @@ describe('Testes em GrupoRepositorio', () => {
                 RepositorioRestaurante.buscarRestaurantePorId = jest.fn().mockReturnValue(rest);
                 GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(false);
                 grupo.save = jest.fn().mockReturnValue(grupo);
-               
+
                 //Act 
                 const resultado = await GrupoRepositorio.atualizarGrupo('idGrupo', rest._id);
 
@@ -144,11 +144,11 @@ describe('Testes em GrupoRepositorio', () => {
             let GrupoRepositorio = RepositorioGrupo;
             let UsuarioRepositorio = RepositorioUsuario;
             const dataAtual = new Date();
-            
+
             beforeEach(() => {
                 grupoTeste.votacao = { status: false, restaurantes: [] };
             });
-            
+
             it('Recebe um ID de um Grupo, de um Restaurante e de um Usuario e acrescenta mais uma curtida no restaurante informado', async () => {
                 //Arrange
                 const user = new UsuarioModule.UsuarioModel(usuario);
@@ -191,6 +191,29 @@ describe('Testes em GrupoRepositorio', () => {
                 expect(user.save).toBeCalledTimes(0);
                 expect(grupo.save).toBeCalledTimes(0);
                 expect(grupo.votacao.restaurantes[0].curtidas).toEqual(0);
+            });
+
+            it('Tenta curtir restaurante duas vezes no dia e retorna falso', async () => {
+                //Arrange
+                usuario.ultimoVoto = new Date();
+                const user = new UsuarioModule.UsuarioModel(usuario);
+                const rest = new RestauranteModel(restaurantes[0]);
+                grupoTeste.votacao.status = true;
+                grupoTeste.votacao.restaurantes.push({ curtidas: 0, data: dataAtual, restaurante: rest });
+                const grupo = new GrupoModule.GrupoModel(grupoTeste);
+                GrupoRepositorio.buscarGrupoID = jest.fn().mockReturnValue(grupo);
+                UsuarioRepositorio.buscarUsuarioID = jest.fn().mockReturnValue(user);
+                user.save = jest.fn();
+                grupo.save = jest.fn().mockReturnValue(grupo);
+
+                //Act
+                const resultado = await GrupoRepositorio.curtirRestaurante('idGrupo', rest._id, 'IdUsuario');
+
+                //Assert
+                expect(resultado).toBeFalsy();
+                expect(grupo.votacao.restaurantes[0].curtidas).toEqual(0);
+                expect(user.save).toBeCalledTimes(0);
+                expect(grupo.save).toBeCalledTimes(0);
             });
         });
     });
