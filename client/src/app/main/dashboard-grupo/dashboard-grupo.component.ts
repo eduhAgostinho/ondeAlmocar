@@ -49,12 +49,13 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
   votar(votacao) {
     this.sub = this.grupoService.votarRestaurante(this.usuarioLogado.grupo._id, votacao.restaurante._id, this.usuarioLogado._id)
       .subscribe((result) => {
+        this.usuarioLogado.ultimoVoto = new Date();
         this.atualizarTabela(result.votacao);
       }, err => {
         if (err.status === 400) {
           const hoje = new Date();
           const usuarioVoto = new Date(this.usuarioLogado.ultimoVoto);
-          if (!this.usuarioLogado.grupo.votacao.status) {
+          if (!this.votacao.status) {
             this.snack.abreSnackBar('A votação não está aberta', 'OK');
           } else if (
             usuarioVoto.getFullYear() === hoje.getFullYear() &&
@@ -93,15 +94,19 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
   }
 
   encerraVotacao() {
-    this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
-      this.atualizarTabela(result.votacao);
-      this.grupoService.encerrarVotacao(this.usuarioLogado.grupo._id, this.votacao.restaurantes[0].restaurante._id).subscribe(
-        (resultado) => {
-          this.snack.abreSnackBarVerde('Votação encerrada', 'OK');
-          this.atualizarTabela(resultado.votacao);
-        }
-      );
-    });
+    if (this.votacao.restaurantes.length === 0) {
+       this.snack.abreSnackBar('Não há nenhum restaurante na votação', 'OK');
+    } else {
+      this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
+        this.atualizarTabela(result.votacao);
+        this.grupoService.encerrarVotacao(this.usuarioLogado.grupo._id, this.votacao.restaurantes[0].restaurante._id).subscribe(
+          (resultado) => {
+            this.snack.abreSnackBarVerde('Votação encerrada', 'OK');
+            this.atualizarTabela(resultado.votacao);
+          }
+        );
+      });
+    }
   }
 
   ngOnDestroy() {

@@ -27,7 +27,7 @@ describe('Testes em Negocio', () => {
             codigo: 'ABf5aA7',
             nome: 'Restaurante Teste',
             restaurantesEscolhidos: [{ data: new Date(), restaurante: { nome: 'Restaurante1', endereco: 'Rua Teste, 422', _id: 'id1' } }],
-            votacao: []
+            votacao: { status: false, restaurantes: [] }
         }
         let restauranteRepositorio = repositorioRestaurante;
         
