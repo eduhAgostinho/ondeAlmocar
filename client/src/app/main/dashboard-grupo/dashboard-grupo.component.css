@@ -29,6 +29,7 @@ table {
 .containerTabela {
   max-height: 400px;
   overflow: auto;
+  width: 47%;
 }
 
 .btnEntrar {
@@ -55,4 +56,46 @@ table {
 
 mat-form-field {
   margin-right: 15px;
+}
+
+#tabelas {
+  display: flex;
+  justify-content: space-between;
+  widows: 100%;
+}
+
+#tabelaEscolhidos {
+  width: 450px;
+}
+
+#tabelaVotacao{
+  width: 95%;
+}
+
+@media (orientation: portrait) {
+  main {
+    padding: 0;
+  }
+
+  header {
+    padding: 10px;
+  }
+
+  .containerTabela {
+    width: 100%;
+  }
+  
+  #tabelaVotacao {
+    margin:  0;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  span {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 }

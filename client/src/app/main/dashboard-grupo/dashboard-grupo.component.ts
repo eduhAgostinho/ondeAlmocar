@@ -7,6 +7,7 @@ import { SnackBarService } from 'src/services/snack-bar.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { RestauranteVotacao } from 'src/models/restaurante';
 import { Votacao } from 'src/models/votacao';
+import { Grupo } from 'src/models/grupo';
 
 @Component({
   selector: 'app-dashboard-grupo',
@@ -19,6 +20,13 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<RestauranteVotacao>;
   votacao: Votacao = { status: false, restaurantes: [] };
   displayedColumns = ['#', 'nome', 'votos', 'votar'];
+  colunasRestaurantesVisitados = ['nome', 'data'];
+  grupo: Grupo = {
+    codigo: '',
+    nome: '',
+    restaurantesEscolhidos: [],
+    votacao: { status: false, restaurantes: [] }
+  };
   @Input() usuarioLogado: Usuario;
   @Output() atualizarUser = new EventEmitter();
 
@@ -30,6 +38,7 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
+      this.grupo = result;
       this.atualizarTabela(result.votacao);
     });
   }
