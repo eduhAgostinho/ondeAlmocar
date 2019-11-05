@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogFormComponent } from 'src/app/dialog-form/dialog-form.component';
 import { Usuario } from 'src/models/usuario';
+import { SnackBarService } from 'src/services/snack-bar.service';
 
 @Component({
   selector: 'app-lista-grupos',
@@ -21,7 +22,8 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
 
   constructor(
     private grupoService: GrupoService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snack: SnackBarService
   ) { }
 
 
@@ -29,6 +31,8 @@ export class ListaGruposComponent implements OnInit, OnDestroy {
     this.sub = this.grupoService.buscarTodosGrupos().subscribe((result) => {
       this.grupos = result;
       this.dataSource = new MatTableDataSource(this.grupos);
+    }, err => {
+      this.snack.abreSnackBar(err.error || err.message, 'OK');
     });
   }
 

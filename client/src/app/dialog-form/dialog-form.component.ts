@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { UsuarioService } from 'src/services/usuario.service';
 import { StorageService } from 'src/services/storage.service';
 import { AutenticacaoService } from 'src/services/autenticacao.service';
+import { SnackBarService } from 'src/services/snack-bar.service';
 
 @Component({
   selector: 'app-dialog-form',
@@ -30,7 +31,7 @@ export class DialogFormComponent implements OnInit {
     private usuarioService: UsuarioService,
     private storage: StorageService,
     private auth: AutenticacaoService,
-
+    private snack: SnackBarService
   ) { }
 
   ngOnInit() {
@@ -44,6 +45,8 @@ export class DialogFormComponent implements OnInit {
       if (this.novoGrupo.nome === this.data[1].codigo) {
         this.usuarioService.entrarSairGrupo(this.decoded.user.email, this.data[1]).subscribe((result) => {
           this.dialogRef.close(result);
+        }, err => {
+          this.snack.abreSnackBar(err.error || err.message, 'OK');
         });
       } else {
         this.erro = true;
@@ -53,6 +56,8 @@ export class DialogFormComponent implements OnInit {
         this.usuarioService.entrarSairGrupo(this.decoded.user.email, result).subscribe((usuarioAtualizado) => {
           this.dialogRef.close(usuarioAtualizado);
         });
+      }, err => {
+        this.snack.abreSnackBar(err.error || err.message, 'OK');
       });
     }
   }

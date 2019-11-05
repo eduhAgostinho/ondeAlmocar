@@ -11,7 +11,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    background-image: linear-gradient(to right, rgb(71, 71, 71), rgb(139, 138, 138), rgb(71, 71, 71));
+    background-image:  url('../../assets/images/fundo.jpg');
+    background-size: 100%;
+    background-repeat: none;
 }
 
 header {
@@ -188,13 +190,17 @@ h3 {
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {
-    color:  rgb(71, 71, 71)!important;
-    border-color: rgb(71, 71, 71)!important;
+    color:  white!important;
+    border-color: white!important;
+    /* color:  rgb(71, 71, 71)!important;
+    border-color: rgb(71, 71, 71)!important; */
 }
     
 ::ng-deep .mat-form-field-ripple {
-    background-color: rgb(71, 71, 71) !important;
-    border-color: rgb(71, 71, 71)!important;
+    background-color: white!important;
+    border-color: white!important;
+    /* background-color: rgb(71, 71, 71) !important;
+    border-color: rgb(71, 71, 71)!important; */
 }
 
 .emailInvalid {
@@ -209,4 +215,14 @@ h3 {
 
 ::ng-deep .snackbarErro button{
     color: white
+}
+
+main {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    color: white;
+}
+
+h3 {
+    color: black;
 }

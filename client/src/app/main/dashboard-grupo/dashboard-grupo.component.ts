@@ -49,6 +49,8 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
     this.sub = this.grupoService.buscarGrupoID(this.usuarioLogado.grupo._id).subscribe((result) => {
       this.grupo = result;
       this.atualizarTabela(result.votacao);
+    }, err => {
+      this.snack.abreSnackBar(err.error || err.message, 'OK');
     });
   }
 
@@ -57,6 +59,8 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
       if (result) {
         this.atualizar(result);
       }
+    }, err => {
+      this.snack.abreSnackBar(err.error || err.message, 'OK');
     });
   }
 
@@ -91,6 +95,8 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
   novaVotacao() {
     this.sub = this.grupoService.votacaoNova(this.usuarioLogado.grupo._id).subscribe((result) => {
       this.atualizarTabela(result.votacao);
+    }, err => {
+      this.snack.abreSnackBar(err.error || err.message, 'OK');
     });
   }
 
@@ -123,6 +129,8 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
             this.atualizarTabela(resultado.votacao);
           }
         );
+      }, err => {
+        this.snack.abreSnackBar(err.error || err.message, 'OK');
       });
     }
   }
