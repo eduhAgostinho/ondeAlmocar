@@ -20,17 +20,13 @@ main {
   padding-top: 0px;
 }
 
-table {
-  width: 50%;
+.example-container {
   margin-bottom: 1.25em;
   margin-left: 15px;
-}
-
-.containerTabela {
   max-height: 350px;
   overflow: auto;
-  width: 47%;
-  margin-bottom: 15px;
+  margin-right: 0;
+  padding: 0;
 }
 
 .btnEntrar {
@@ -70,7 +66,7 @@ mat-form-field {
 }
 
 #tabelaVotacao{
-  width: 95%;
+  width: 100%;
 }
 
 @media (orientation: portrait) {
@@ -82,8 +78,9 @@ mat-form-field {
     padding: 10px;
   }
 
-  .containerTabela {
+  .example-container {
     width: 100%;
+    margin: 0;
   }
   
   #tabelaVotacao {
@@ -100,3 +97,31 @@ mat-form-field {
   }
 
 }
+
+tr.example-detail-row {
+  height: 0;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+

@@ -8,11 +8,19 @@ import { MatTableDataSource } from '@angular/material/table';
 import { RestauranteVotacao } from 'src/models/restaurante';
 import { Votacao } from 'src/models/votacao';
 import { Grupo } from 'src/models/grupo';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-dashboard-grupo',
   templateUrl: './dashboard-grupo.component.html',
-  styleUrls: ['./dashboard-grupo.component.css']
+  styleUrls: ['./dashboard-grupo.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class DashboardGrupoComponent implements OnInit, OnDestroy {
 
@@ -27,6 +35,7 @@ export class DashboardGrupoComponent implements OnInit, OnDestroy {
     restaurantesEscolhidos: [],
     votacao: { status: false, restaurantes: [] }
   };
+  expandedElement: RestauranteVotacao | null;
   @Input() usuarioLogado: Usuario;
   @Output() atualizarUser = new EventEmitter();
 
