@@ -190,17 +190,13 @@ h3 {
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {
-    color:  white!important;
-    border-color: white!important;
-    /* color:  rgb(71, 71, 71)!important;
-    border-color: rgb(71, 71, 71)!important; */
+    color:  rgb(71, 71, 71)!important;
+    border-color: rgb(71, 71, 71)!important;
 }
     
 ::ng-deep .mat-form-field-ripple {
-    background-color: white!important;
-    border-color: white!important;
-    /* background-color: rgb(71, 71, 71) !important;
-    border-color: rgb(71, 71, 71)!important; */
+    background-color: rgb(71, 71, 71) !important;
+    border-color: rgb(71, 71, 71)!important;
 }
 
 .emailInvalid {
@@ -220,7 +216,7 @@ h3 {
 main {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 10px;
-    color: white;
+    color: black;
 }
 
 h3 {
