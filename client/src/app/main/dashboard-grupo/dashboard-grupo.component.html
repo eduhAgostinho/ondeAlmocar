@@ -21,24 +21,24 @@
 
         <ng-container matColumnDef="#">
           <th mat-header-cell *matHeaderCellDef> # </th>
-          <td mat-cell *matCellDef="let votacao; let i = dataIndex" [ngClass]="i === 0?'tdVerde':''"> {{ i+1 }} </td>
+          <td mat-cell *matCellDef="let v; let i = dataIndex" [ngClass]="i === 0 && !votacao.status?'tdVerde':''?'tdVerde':''"> {{ i+1 }} </td>
         </ng-container>
 
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef> Restaurante </th>
-          <td mat-cell *matCellDef="let votacao; let i = dataIndex" [ngClass]="i === 0?'tdVerde':''">
-            {{ votacao.restaurante.nome }} </td>
+          <td mat-cell *matCellDef="let v; let i = dataIndex" [ngClass]="i === 0 && !votacao.status?'tdVerde':''?'tdVerde':''">
+            {{ v.restaurante.nome }} </td>
         </ng-container>
 
         <ng-container matColumnDef="votos">
           <th mat-header-cell *matHeaderCellDef> Votos </th>
-          <td mat-cell *matCellDef="let votacao; let i = dataIndex" [ngClass]="i === 0?'tdVerde':''"> {{ votacao.curtidas }}
+          <td mat-cell *matCellDef="let v; let i = dataIndex" [ngClass]="i === 0 && !votacao.status?'tdVerde':''?'tdVerde':''"> {{ v.curtidas }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="votar">
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let v; let i = dataIndex" [ngClass]="i === 0?'tdVerde':''">
+          <td mat-cell *matCellDef="let v; let i = dataIndex" [ngClass]="i === 0 && !votacao.status?'tdVerde':''">
             <button [ngClass]="!votacao.status?'btnPadrao':'btnEntrar'" [disabled]="!votacao.status" (click)="votar(v)"
               mat-raised-button>Votar</button>
           </td>
